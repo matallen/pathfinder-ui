@@ -49,7 +49,7 @@
 						<section>
 							<div class="content">
 								<header>
-									<a href="results.php" class="icon fa-line-chart"><span class="label">Icon</span></a>
+									<a href="manageCustomers.jsp" class="icon fa-line-chart"><span class="label">Icon</span></a>
 									<h3>Results</h3>
 								</header>
 								<p>View and edit assessment results.</p>

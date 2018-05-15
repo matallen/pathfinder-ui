@@ -139,7 +139,7 @@
 							        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
 							        "pageLength" : 10, // default page entries
 							        "searching" : false,
-							        "order" : [[2,"desc"],[1,"desc"],[0,"asc"]],  //reviewed, assessed then app name
+							        "order" : [[1,"desc"],[2,"desc"],[0,"asc"]],  //reviewed, assessed then app name
 							        "columns": [
 							            { "data": "Name" },
 							            { "data": "Assessed" },
@@ -155,7 +155,14 @@
 							              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='"+Utils.SERVER+"'>No</a>")+"</span>";
 													}},
 													{ "targets": 2, "orderable": true, "render": function (data,type,row){
-							              return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
+														if (row["ReviewDate"]==null && row["Assessed"]==true){
+														  return "<a href='reviewAssessment.php?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img height='24px' src='images/review.png'></a>";
+														}else if (row["ReviewDate"]==null){
+															return "No";
+														}else{
+															return "Yes";
+														}
+							              //return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
 							              return row['Decision']==null?"":row['Decision'].rank;
@@ -175,18 +182,18 @@
 					    </div>
 					    <div id="tableDiv">
 						    <table id="example" class="display" cellspacing="0" width="100%">
-						        <thead>
-						            <tr>
-						                <th align="left">Application</th>
-						                <th align="left">Assessed</th>
-						                <th align="left">Review</th>
-						                <th align="left">Business Priority</th>
-						                <th align="left">Decision</th>
-						                <th align="left">Effort</th>
-						                <th align="left">Review Date</th>
-						                <th align="left"></th>
-						            </tr>
-						        </thead>
+					        <thead>
+				            <tr>
+			                <th align="left">Application</th>
+			                <th align="left">Assessed</th>
+			                <th align="left">Review</th>
+			                <th align="left">Business Priority</th>
+			                <th align="left">Decision</th>
+			                <th align="left">Effort</th>
+			                <th align="left">Review Date</th>
+			                <th align="left"></th>
+				            </tr>
+					        </thead>
 						    </table>
 						  </div>
 				  	</div>
