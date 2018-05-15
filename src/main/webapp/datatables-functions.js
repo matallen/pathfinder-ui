@@ -1,0 +1,97 @@
+function send(action, uri, data){
+  var xhr = new XMLHttpRequest();
+  var ctx = "${pageContext.request.contextPath}";
+  var url=ctx+"/api"+uri;
+  xhr.open(action, url, true);
+  if (data != undefined){
+    xhr.send(JSON.stringify(data));
+  }else{
+    xhr.send();
+  }
+  xhr.onloadend = function () {
+    $('#example').dataTable().fnReloadAjax();
+  };
+}
+
+function post(uri, data){
+  return send("POST", uri, data);
+}
+function httpDelete(uri, data){
+  return send("DELETE", uri, data);
+}
+function put(uri, data){
+  return send("put", uri, data);
+}
+function editFormReset(){
+    document.getElementById("edit-ok").innerHTML="Create";
+    document.getElementById("exampleModalLabel").innerHTML=document.getElementById("exampleModalLabel").innerHTML.replace("Update", "New");
+    
+    var form=document.getElementById("form");
+    for (var i = 0, ii = form.length; i < ii; ++i) {
+      var input = form[i];
+      input.value="";
+    }
+    document.getElementById(getIdFieldName()).value="NEW";
+}
+function loadEntity(id){
+  document.getElementById("edit-ok").innerHTML="Update";
+  document.getElementById("exampleModalLabel").innerHTML=document.getElementById("exampleModalLabel").innerHTML.replace("New", "Update");
+  var xhr = new XMLHttpRequest();
+  var ctx = "${pageContext.request.contextPath}";
+  xhr.open("GET", getLoadUrl(id), true);
+  //xhr.open("GET", SERVER+"/api/pathfinder/customers/"+id+"/", true);
+  xhr.send();
+  xhr.onloadend = function () {
+    var json=JSON.parse(xhr.responseText);
+    var form=document.getElementById("form");
+    for (var i = 0, ii = form.length; i < ii; ++i) {
+      if (typeof json[form[i].name] == "undefined"){
+        form[i].value="";
+      }else{
+        form[i].value=json[form[i].name];
+      }
+    }
+  }
+}
+function save(formId){
+  var data = {};
+  var op="";
+  var form=document.getElementById(formId);
+  for (var i = 0, ii = form.length; i < ii; ++i) {
+    if (form[i].name) data[form[i].name]=form[i].value;
+  }
+  post(getSaveUrl(), data);
+  //post(SERVER+"/api/pathfinder/customers/", data);
+  editFormReset();
+}
+
+function httpGet(url, field, callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.send();
+	xhr.onloadend = function () {
+	  callback(JSON.parse(xhr.responseText)[field]);
+	};
+}
+
+function httpGetObject(url, callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.send();
+	xhr.onloadend = function () {
+	  callback(JSON.parse(xhr.responseText));
+	};
+}
+
+Utils = {
+  SERVER: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com",
+	getParameterByName: function(name, url) {
+		  if (!url) url = window.location.href;
+		  name = name.replace(/[\[\]]/g, "\\$&");
+		  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		      results = regex.exec(url);
+		  if (!results) return null;
+		  if (!results[2]) return '';
+		  return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+}

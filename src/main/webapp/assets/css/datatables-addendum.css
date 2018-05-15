@@ -1,0 +1,16 @@
+#exampleModal{
+	top:150px;
+}
+#wrapper{
+	width:90%;
+	margin: auto;
+}
+#buttonbar{
+	position:relative;
+	top:45px;
+	z-index: 2146013764;
+	width: 50%; /* so it doesnt go over the search filter box*/
+}
+table.dataTable tbody td {
+  padding: 2px 2px;
+}
