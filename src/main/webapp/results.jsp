@@ -38,13 +38,9 @@
 				
 				<!-- ### Page specific stuff here ### -->
 				
-				<!-- ### Pie Chart Dependencies-->
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
-        
 				<script>
 				var customerId=Utils.getParameterByName("customerId");
-				var processedApps=assessed=unassessed=notReviewed=reviewed=0;
+				var appsCount=assessed=unassessed=notReviewed=reviewed=0;
 				
 				$(document).ready(function() {
 					var done=false;
@@ -63,8 +59,8 @@
 							httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+applications[i].Id+"/assessments/", function(assessments){
 								assessed+=assessments.length>0;
 								unassessed+=assessments.length==0;
-								processedApps+=1;
-								done=applications.length==processedApps;
+								appsCount+=1;
+								done=applications.length==appsCount;
 							});
 							
 							if (applications[i].Review==null){
@@ -80,46 +76,20 @@
 					});					
 					
 					function loadProgress(){
-					  //console.log("Assessed progress="+assessed+"/"+processedApps+" (Done? = "+done+")");
+					  //console.log("Assessed progress="+assessed+"/"+appsCount+" (Done? = "+done+")");
 					  if (done>0){
 					  	
-					    processedApps=processedApps.toString();
+					    appsCount=appsCount.toString();
 					    assessed=assessed.toString();
 					    reviewed=reviewed.toString();
-					  	console.log("processedApps="+processedApps+", assessed="+assessed+", reviewed="+reviewed);
+					  	console.log("appsCount="+appsCount+", assessed="+assessed+", reviewed="+reviewed);
 					    
-						  $('#jqmeter-assessed').jQMeter({goal:processedApps,raised:assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
-						  $('#jqmeter-reviewed').jQMeter({goal:processedApps,raised:reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+						  $('#jqmeter-assessed').jQMeter({goal:appsCount,raised:assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+						  $('#jqmeter-reviewed').jQMeter({goal:appsCount,raised:reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
 					  }else{
 					  	setTimeout(loadProgress, 500);
 					  }
 					}
-					
-					//function loadAssessmentChart(){
-					//  console.log("Apps Processed="+processedApps +" (Done? = "+done+")");
-					//  if (done>0){
-					//		// ### Pie Chart
-					//		google.charts.load('current', {'packages':['corechart']});
-					//		google.charts.setOnLoadCallback(drawChart);
-					//		function drawChart() {
-					//		  var data = google.visualization.arrayToDataTable([
-					//		    ['Task', 'Hours per Day'],
-					//		    ['Assessed',     assessed],
-					//		    ['Not Assessed', unassessed]
-					//		  ]);
-					//		  var options = {
-					//		    backgroundColor: 'transparent',
-					//		    title: 'Assessment Status',
-					//		    pieHole: 0.2,
-					//		    is3D: true,
-					//		  };
-					//		  var chart = new google.visualization.PieChart(document.getElementById('piechartAss'));
-					//		  chart.draw(data, options);
-					//		}
-					//	}else{
-					//		setTimeout(loadAssessmentChart, 500);
-					//	}
-					//}
 					
 					});
 				
@@ -159,7 +129,8 @@
 							    $('#example').DataTable( {
 							        "ajax": {
 							            //"url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/",
-							            "url": 'http://localhost:8083/pathfinder-ui/api/pathfinder/customers/'+customerId+"/assessmentSummary",
+							            //"url": 'http://localhost:8083/pathfinder-ui/api/pathfinder/customers/'+customerId+"/assessmentSummary",
+							            "url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentSummary",
 							            "dataSrc": "",
 							            "dataType": "json"
 							        },
@@ -170,40 +141,31 @@
 							        "searching" : false,
 							        "order" : [[2,"desc"],[1,"desc"],[0,"asc"]],  //reviewed, assessed then app name
 							        "columns": [
-							            { "data": "applicationName" },
-							            { "data": "assessed" },
-							            { "data": "reviewed" },
-							            { "data": "priority" },
-							            { "data": "decision" },
-							            { "data": "effort" },
-							            { "data": "reviewDate" },
-							            { "data": "lastAssessmentId" }
+							            { "data": "Name" },
+							            { "data": "Assessed" },
+							            { "data": "ReviewDate" },
+							            { "data": "BusinessPriority" },
+							            { "data": "Decision" },
+							            { "data": "WorkEffort" },
+							            { "data": "ReviewDate" },
+							            { "data": "LatestAssessmentId" }
 							        ]
 							        ,"columnDefs": [
 							        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
-							              return "<span class='"+(row["assessed"]==="Yes"?"messageGreen'>Yes":"messageRed'><a href='"+Utils.SERVER+"'>No</a>")+"</span>";
+							              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='"+Utils.SERVER+"'>No</a>")+"</span>";
 													}},
 													{ "targets": 2, "orderable": true, "render": function (data,type,row){
-							              return "<span class='"+(row["reviewed"]==="Yes"?"'>Yes":"'>No")+"</span>";
+							              return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
-							            { "targets": 7, "orderable": true, "render": function (data,type,row){
-							              return "<a href='viewAssessment.php?app="+row['applicationId']+"&assessment="+row['lastAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
+													{ "targets": 4, "orderable": true, "render": function (data,type,row){
+							              return row['Decision']==null?"":row['Decision'].rank;
+													}},
+													{ "targets": 5, "orderable": true, "render": function (data,type,row){
+							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
+													}},
+							            { "targets": 7, "orderable": false, "render": function (data,type,row){
+							              return "<a href='viewAssessment.php?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
 													}}
-							          // { "targets": 0, "orderable": true, "render": function (data,type,row){
-							          //    return "<a href='#' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'>"+row["CustomerName"]+"</a>";
-												//	}}
-							          // ,{ "targets": 2, "orderable": false, "render": function (data,type,row){
-												//		return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Results</a>";
-												//	}}
-							          // ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
-												//		return "<a href='manageCustomerApplications.jsp?customerId="+row["CustomerId"]+"'>Manage Applications</a>";
-												//	}}
-								        // ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
-												//		return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
-												//	}}
-								        // ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
-												//		return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
-												//	}}
 							        ]
 							    } );
 							} );
