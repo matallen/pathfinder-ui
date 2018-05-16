@@ -24,12 +24,14 @@
 		<section id="banner2">
 			<div class="inner">
 				<h1><span id="customerName"></span> Assessment Summary</h1>
-				<p>View the results of an assessment and review output.</div>
+				<p>View the results of an assessment and review output.</p>
+			</div>
 		</section>
 		
   	<div id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><a href="#">Assessments</a></li>
+				<li><a href="manageCustomers.jsp">Customers</a></li>
+				<li><span id="breadcrumb"></span></li>
 			</ul>
 		</div>
 		
@@ -49,47 +51,58 @@
 					httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId, function(customer){
 						// ### Populate the header with the Customer Name
 						document.getElementById("customerName").innerHTML=customer.CustomerName;
+						document.getElementById("breadcrumb").innerHTML=customer.CustomerName;
+					});
+					
+					// ### Populate the progress bar
+					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentProgress", function(progress){
+					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
+					  progress.Appcount=progress.Appcount.toString();
+					  progress.Assessed=progress.Assessed.toString();
+					  progress.Reviewed=progress.Reviewed.toString();
+					  $('#jqmeter-assessed').jQMeter({goal:progress.Appcount,raised:progress.Assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+					  $('#jqmeter-reviewed').jQMeter({goal:progress.Appcount,raised:progress.Reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
 					});
 					
 					// ### Get Application & Results
-					httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/", function(applications){
-						
-						for (i=0;i<applications.length;i++){
-							// ### Get Application Assessments
-							httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+applications[i].Id+"/assessments/", function(assessments){
-								assessed+=assessments.length>0;
-								unassessed+=assessments.length==0;
-								appsCount+=1;
-								done=applications.length==appsCount;
-							});
-							
-							if (applications[i].Review==null){
-								notReviewed+=1;
-							}else{
-								reviewed+=1;
-							}
-							
-						};
-						
-						setTimeout(loadProgress, 500);
-						
-					});					
-					
-					function loadProgress(){
-					  //console.log("Assessed progress="+assessed+"/"+appsCount+" (Done? = "+done+")");
-					  if (done>0){
-					  	
-					    appsCount=appsCount.toString();
-					    assessed=assessed.toString();
-					    reviewed=reviewed.toString();
-					  	console.log("appsCount="+appsCount+", assessed="+assessed+", reviewed="+reviewed);
-					    
-						  $('#jqmeter-assessed').jQMeter({goal:appsCount,raised:assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
-						  $('#jqmeter-reviewed').jQMeter({goal:appsCount,raised:reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
-					  }else{
-					  	setTimeout(loadProgress, 500);
-					  }
-					}
+					//httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/", function(applications){
+					//	
+					//	for (i=0;i<applications.length;i++){
+					//		// ### Get Application Assessments
+					//		httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+applications[i].Id+"/assessments/", function(assessments){
+					//			assessed+=assessments.length>0;
+					//			unassessed+=assessments.length==0;
+					//			appsCount+=1;
+					//			done=applications.length==appsCount;
+					//		});
+					//		
+					//		if (applications[i].Review==null){
+					//			notReviewed+=1;
+					//		}else{
+					//			reviewed+=1;
+					//		}
+					//		
+					//	};
+					//	
+					//	setTimeout(loadProgress, 500);
+					//	
+					//});					
+					//
+					//function loadProgress(){
+					//  //console.log("Assessed progress="+assessed+"/"+appsCount+" (Done? = "+done+")");
+					//  if (done>0){
+					//  	
+					//    appsCount=appsCount.toString();
+					//    assessed=assessed.toString();
+					//    reviewed=reviewed.toString();
+					//  	console.log("appsCount="+appsCount+", assessed="+assessed+", reviewed="+reviewed);
+					//    
+					//	  $('#jqmeter-assessed').jQMeter({goal:appsCount,raised:assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+					//	  $('#jqmeter-reviewed').jQMeter({goal:appsCount,raised:reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+					//  }else{
+					//  	setTimeout(loadProgress, 500);
+					//  }
+					//}
 					
 					});
 				
@@ -171,7 +184,7 @@
 							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
 													}},
 							            { "targets": 7, "orderable": false, "render": function (data,type,row){
-							              return "<a href='viewAssessment.php?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
+							              return "<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
 													}}
 							        ]
 							    } );

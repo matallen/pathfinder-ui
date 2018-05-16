@@ -129,6 +129,7 @@ $allRatings = array();
 foreach ($questions as $question) {
 $shortAspect = $question['id'];
 $aspect = $question['aspect'];
+
 array_push($allQuestions, $aspect);
 $minimum = $question['minimum'];
 $qAnswer = $answers['payload'][$shortAspect];

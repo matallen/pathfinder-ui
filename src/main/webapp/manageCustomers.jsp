@@ -32,7 +32,7 @@
 			
 		<div id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><a href="manageCustomers.jsp">Admin</a></li>
+				<li><a href="manageCustomers.jsp">Customers</a></li>
 			</ul>
 		</div>
 		
@@ -103,7 +103,6 @@
 			    } );
 			} );
 		</script>
-		
   	<div id="wrapper">
 	    <div id="buttonbar">
 	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="reset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
@@ -115,7 +114,7 @@
 		            <tr>
 		                <th align="left">Customer Name</th>
 		                <th align="left">Customer Details</th>
-		                <th align="left">View Results</th>
+		                <th align="left"></th>
 		                <th align="left"></th>
 		                <th align="left"></th>
 		                <th align="left"></th>
