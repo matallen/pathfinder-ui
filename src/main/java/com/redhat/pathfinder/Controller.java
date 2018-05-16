@@ -1,7 +1,9 @@
 package com.redhat.pathfinder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,6 +12,11 @@ import javax.ws.rs.core.Response;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+
+import com.redhat.pathfinder.charts.Chart2Json;
+import com.redhat.pathfinder.charts.DataSet2;
+import com.redhat.pathfinder.charts.PieChartJson;
+import com.redhat.pathfinder.charts.PieData;
 
 @Path("/pathfinder/")
 public class Controller{
@@ -51,6 +58,49 @@ public class Controller{
     public String getLastAssessmentId(){
       return lastAssessmentId;
     }
+  }
+  
+  
+  @GET
+  @Path("/customers/{customerId}/applications/{appId}/assessments/{assessmentId}/chart")
+  public Response chart(@PathParam("customerId") String customerId, @PathParam("appId") String appId, @PathParam("assessmentId") String assessmentId) throws JsonGenerationException, JsonMappingException, IOException{
+    
+    List<String> d=new ArrayList<String>();
+    d.add("Architectural Suitability:1:AMBER");
+    d.add("Clustering:4:GREEN");
+    d.add("Communication:2:RED");
+    d.add("Compliance:3:AMBER");
+    d.add("Application Configuration:4:GREEN");
+    d.add("Existing containerisation:0:UNKNOWN");
+    d.add("Deployment Complexity :4:AMBER");
+    d.add("Dependencies - 3rd party vendor:2:RED");
+    d.add("Dependencies - Hardware:1:RED");
+    d.add("Dependencies - (Incoming/Northbound):4:GREEN");
+    d.add("Dependencies - Operating system:2:RED");
+    d.add("Dependencies - (Outgoing/Southbound):5:GREEN");
+    d.add("Discovery:3:AMBER");
+    d.add("Observability - Application Health:4:GREEN");
+    d.add("Observability - Application Logs:3:AMBER");
+    d.add("Observability - Application Metrics:3:AMBER");
+    d.add("Level of ownership:5:GREEN");
+    d.add("Runtime profile:4:GREEN");
+    d.add("Application resiliency:4:GREEN");
+    d.add("Application Security:3:AMBER");
+    d.add("State Management:0:UNKNOWN");
+    d.add("Application Testing:3:AMBER");
+    
+    Chart2Json c=new Chart2Json();
+    for(String x:d) c.getLabels().add(x.split(":")[0]);
+    
+    DataSet2 ds=new DataSet2();
+    List<Integer> data=new ArrayList<Integer>();
+    for(String x:d) data.add(Integer.parseInt(x.split(":")[1]));
+    ds.setData(data);
+    
+    c.getDatasets().add(ds);
+    
+    return Response.status(200).entity(Json.newObjectMapper(true).writeValueAsString(c)).build();
+    
   }
   
   @GET

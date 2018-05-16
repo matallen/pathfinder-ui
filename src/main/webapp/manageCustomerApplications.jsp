@@ -32,7 +32,7 @@
 		
   	<div id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><a href="manageCustomers.jsp">Admin</a></li>
+				<li><a href="manageCustomers.jsp">Customers</a></li>
 				<li><span id="breadcrumb"></span></li>
 			</ul>
 		</div>
