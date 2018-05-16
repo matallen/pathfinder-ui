@@ -108,6 +108,7 @@ public class Controller{
       if (color.equals("UNKNOWN")) backgrounds.add("rgb(50, 50, 50)");
     }
     ds.setBackgroundColor(backgrounds);
+    ds.setBorderColor(backgrounds);
     
     c.getDatasets().add(ds);
 //    c.getDatasets().get(0).getBackgroundColor()

@@ -33,7 +33,7 @@
   	<div id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li><a href="manageCustomers.jsp">Customers</a></li>
-				<li><span id="breadcrumb"></span></li>
+				<li><span id="breadcrumb"></span> Applications</li>
 			</ul>
 		</div>
   	
@@ -77,18 +77,16 @@
 			        "columns": [
 			            { "data": "Name" },
 			            { "data": "Description" },
-			            { "data": "Review" },
-			            { "data": "CustomerId" },
-			            { "data": "CustomerId" },
+			            { "data": "Id" },
+			            { "data": "Id" },
 			        ]
-			        
 			        ,"columnDefs": [
-				         { "targets": 3, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
-									}}
-				         ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
-									}}
+				      	 { "targets": 2, "orderable": false, "render": function (data,type,row){
+									return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
+								}}
+			        	,{ "targets": 3, "orderable": false, "render": function (data,type,row){
+									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
+								}}
 			        ]
 			    } );
 			} );
@@ -103,7 +101,6 @@
 			            <tr>
 			                <th align="left">Application Name</th>
 			                <th align="left">Application Description</th>
-			                <th align="left">Review</th>
 			                <th align="left"></th>
 			                <th align="left"></th>
 			            </tr>
@@ -163,21 +160,25 @@
       </div>
       <div class="modal-body">
         <form id="form">
+        	<!--
           <div id="form-id" class="form-group">
             <label for="Id" class="control-label">Application ID:</label>
             <input id="Id" name="Id" type="text" class="form-control"/>
           </div>
+        	-->
           <div class="form-group">
             <label for="Name" class="control-label">Application Name:</label>
             <input id="Name" name="Name" type="text" class="form-control">
           </div>
+          <!--
           <div class="form-group">
             <label for="Review" class="control-label">Review:</label>
             <input id="Review" name="Review" type="text" class="form-control">
           </div>
+          -->
           <div class="form-group">
             <label for="Description" class="control-label">Application Description:</label>
-            <input id="Description" Description="Name" type="text" class="form-control">
+            <input id="Description" name="Description" type="text" class="form-control">
           </div>
         </form>
       </div>
