@@ -108,8 +108,13 @@ public class Controller{
       if (color.equals("UNKNOWN")) backgrounds.add("rgb(220, 220, 220)");
     }
     ds.setBackgroundColor(backgrounds);
+<<<<<<< HEAD
 //    ds.setBorderColor(backgrounds);
     ds.setHoverBorderWidth(1);
+=======
+    ds.setBorderColor(backgrounds);
+    
+>>>>>>> 7751bbb48dae7cc666e68d535bcbf954c6c2403f
     c.getDatasets().add(ds);
 //    c.getDatasets().get(0).getBackgroundColor()
     

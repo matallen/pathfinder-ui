@@ -13,9 +13,9 @@
 				<ul class="links">
 					<li><a href="index.jsp">Home</a></li>
 					<li><a href="survey.jsp" target=_blank>Assessment</a></li>
-					<li><a href="manageCustomers.jsp">Admin</a></li>
+					<li><a href="manageCustomers.jsp">Customers</a></li>
 					<li><a href="workflow.jsp">Workflow</a></li>
-					<li><a href="credits.php">Credits</a></li>
+					<li><a href="credits.jsp">Credits</a></li>
 				</ul>
 			</nav>
 			

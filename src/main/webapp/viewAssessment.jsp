@@ -80,6 +80,27 @@
 				});
 				
 				</script>
+				<script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+				<script>
+					$(document).ready(function() {
+					  var xhr = new XMLHttpRequest();
+					  xhr.open("GET", ctx+uri, true);
+					  xhr.send();
+					  xhr.onloadend = function () {
+					    var data=JSON.parse(xhr.responseText);
+					    var ctx = document.getElementById("chartjs-4").getContext("2d");
+					    var myDoughnutChart = new Chart(ctx, {
+							    type: 'doughnut',
+							    data: data,
+							    options: pieOptions
+							});
+					  }
+					});
+				</script>
+				<div class="chartjs-wrapper">
+					<canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
+				</div>
+				
 				
 				<div class="row">
 					<div class="col-sm-4">

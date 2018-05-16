@@ -31,7 +31,7 @@
   	<div id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li><a href="manageCustomers.jsp">Customers</a></li>
-				<li><span id="breadcrumb"></span></li>
+				<li><span id="breadcrumb"></span> Assessment Results</li>
 			</ul>
 		</div>
 		
@@ -190,7 +190,7 @@
 							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
 													}},
 							            { "targets": 7, "orderable": false, "render": function (data,type,row){
-							              return "<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
+							            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
 													}}
 							        ]
 							    } );
