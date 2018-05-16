@@ -105,8 +105,8 @@
 		</script>
   	<div id="wrapper">
 	    <div id="buttonbar">
-	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="reset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
-	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="reset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new" disabled>Export</button>
+	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
+	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new" disabled>Export</button>
 	    </div>
 	    <div id="tableDiv">
 		    <table id="example" class="display" cellspacing="0" width="100%">
@@ -154,6 +154,12 @@
       </div>
       <div class="modal-body">
         <form id="form">
+        	<!-- ### Hidden ID field -->
+        	<div id="form-id" class="form-group" style="display:none">
+            <label for="CustomerId" class="control-label">Customer Name:</label>
+            <input id="CustomerId" name="CustomerId" type="text" class="form-control"/>
+          </div>
+          
           <div id="form-id" class="form-group">
             <label for="CustomerName" class="control-label">Customer Name:</label>
             <input id="CustomerName" name="CustomerName" type="text" class="form-control"/>

@@ -31,6 +31,10 @@ function editFormReset(){
       var input = form[i];
       input.value="";
     }
+    
+    if (null==document.getElementById(getIdFieldName())){
+      console.log("Unable to find element named: "+getIdFieldName());
+    }
     document.getElementById(getIdFieldName()).value="NEW";
 }
 function loadEntity(id){
