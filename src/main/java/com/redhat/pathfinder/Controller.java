@@ -66,28 +66,28 @@ public class Controller{
   public Response chart(@PathParam("customerId") String customerId, @PathParam("appId") String appId, @PathParam("assessmentId") String assessmentId) throws JsonGenerationException, JsonMappingException, IOException{
     
     List<String> d=new ArrayList<String>();
-    d.add("Architectural Suitability:1:AMBER");
+    d.add("Architectural Suitability:1:GREEN");
     d.add("Clustering:4:GREEN");
-    d.add("Communication:2:RED");
-    d.add("Compliance:3:AMBER");
+    d.add("Communication:2:GREEN");
+    d.add("Compliance:3:GREEN");
     d.add("Application Configuration:4:GREEN");
-    d.add("Existing containerisation:0:UNKNOWN");
-    d.add("Deployment Complexity :4:AMBER");
-    d.add("Dependencies - 3rd party vendor:2:RED");
-    d.add("Dependencies - Hardware:1:RED");
+    d.add("Existing containerisation:0:GREEN");
+    d.add("Deployment Complexity :4:GREEN");
+    d.add("Dependencies - 3rd party vendor:2:GREEN");
+    d.add("Dependencies - Hardware:1:GREEN");
     d.add("Dependencies - (Incoming/Northbound):4:GREEN");
-    d.add("Dependencies - Operating system:2:RED");
-    d.add("Dependencies - (Outgoing/Southbound):5:GREEN");
+    d.add("Dependencies - Operating system:2:GREEN");
+    d.add("Dependencies - (Outgoing/Southbound):5:AMBER");
     d.add("Discovery:3:AMBER");
-    d.add("Observability - Application Health:4:GREEN");
+    d.add("Observability - Application Health:4:AMBER");
     d.add("Observability - Application Logs:3:AMBER");
     d.add("Observability - Application Metrics:3:AMBER");
-    d.add("Level of ownership:5:GREEN");
-    d.add("Runtime profile:4:GREEN");
-    d.add("Application resiliency:4:GREEN");
-    d.add("Application Security:3:AMBER");
+    d.add("Level of ownership:5:AMBER");
+    d.add("Runtime profile:4:RED");
+    d.add("Application resiliency:4:RED");
+    d.add("Application Security:3:RED");
     d.add("State Management:0:UNKNOWN");
-    d.add("Application Testing:3:AMBER");
+    d.add("Application Testing:3:UNKNOWN");
     
     Chart2Json c=new Chart2Json();
     for(String x:d) c.getLabels().add(x.split(":")[0]);
@@ -102,13 +102,14 @@ public class Controller{
     List<String> backgrounds=new ArrayList<String>();
     for(String x:d){
       String color=x.split(":")[2];
-      if (color.equals("RED")) backgrounds.add("rgb(255, 99, 132)");
+      if (color.equals("RED")) backgrounds.add("rgb(255, 0, 0)");
       if (color.equals("AMBER")) backgrounds.add("rgb(255, 205, 86)");
-      if (color.equals("GREEN")) backgrounds.add("rgb(0, 255, 0)");
-      if (color.equals("UNKNOWN")) backgrounds.add("rgb(50, 50, 50)");
+      if (color.equals("GREEN")) backgrounds.add("rgb(0, 128, 0)");
+      if (color.equals("UNKNOWN")) backgrounds.add("rgb(220, 220, 220)");
     }
     ds.setBackgroundColor(backgrounds);
-    
+//    ds.setBorderColor(backgrounds);
+    ds.setHoverBorderWidth(1);
     c.getDatasets().add(ds);
 //    c.getDatasets().get(0).getBackgroundColor()
     

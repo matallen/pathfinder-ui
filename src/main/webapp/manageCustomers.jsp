@@ -39,6 +39,7 @@
 		
 		<!-- #### DATATABLES ### -->
 		<script>
+
 			function deleteItem(id){
 			  delete(Utils.SERVER+"/api/pathfinder/customers/"+id);
 			}
@@ -82,7 +83,7 @@
 			            { "data": "CustomerId" },
 			            { "data": "CustomerId" },
 			            { "data": "CustomerId" },
-			        ]
+				        ]
 			        ,"columnDefs": [
 			           { "targets": 0, "orderable": true, "render": function (data,type,row){
 			              return "<a href='#' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'>"+row["CustomerName"]+"</a>";
@@ -94,10 +95,10 @@
 										return "<a href='manageCustomerApplications.jsp?customerId="+row["CustomerId"]+"'>Manage Applications</a>";
 									}}
 				         ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
+										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png); background-repeat: no-repeat'></div>";
 									}}
 				         ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
+										return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
 									}}
 			        ]
 			    } );
@@ -116,8 +117,9 @@
 		                <th align="left">Customer Details</th>
 		                <th align="left"></th>
 		                <th align="left"></th>
-		                <th align="left"></th>
-		                <th align="left"></th>
+		                <th align="left">Edit</th>
+		                <th align="left">Delete</th>
+
 		            </tr>
 		        </thead>
 		    </table>
