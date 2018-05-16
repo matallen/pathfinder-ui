@@ -17,7 +17,7 @@
   <script src="assets/js/jquery.dataTables-1.10.16.js"></script>
   <script src="datatables-functions.js"></script>
 	<script src="datatables-plugins.js"></script>
-	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>	
 	<body class="is-preload">
   	<%@include file="nav.jsp"%>
   	
@@ -45,24 +45,37 @@
 				
 				<script>
 				var customerId=Utils.getParameterByName("customer");
+				var appId=Utils.getParameterByName("app");
+				var assessmentId=Utils.getParameterByName("assessment");
+
 				var appsCount=assessed=unassessed=notReviewed=reviewed=0;
 				
 				$(document).ready(function() {
 					var done=false;
+					var applicationFullName = "";
+					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(applicationName){
+						document.getElementById("breadcrumb2").innerHTML=applicationName.Name;
+					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
+					});
 					
 					// ### Get Customer Details
 					httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId, function(customer){
 						// ### Populate the header with the Customer Name
 						document.getElementById("customerName").innerHTML=customer.CustomerName;
 						document.getElementById("breadcrumb1").innerHTML="<a href='results.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
-						document.getElementById("breadcrumb2").innerHTML="Name App Assessment Here";
+
 					});
-					
+					console.log(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentProgress");
 					// ### Populate the progress bar
 					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentProgress", function(progress){
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
+
 					
+					httpGetObject("api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart", function(application){
+						console.log(application);
+					});
+
 					
 				});
 				
@@ -92,81 +105,30 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="bubbleChart"/></div>
-						<script type="text/javascript" >
-							$(document).ready(function () {
-							  var bubbleChart = new d3.svg.BubbleChart({
-							    supportResponsive: true,
-							    size: 600,
-							    innerRadius: 600 / 3.5,
-							    radiusMin: 50,
-							    data: {
-							      items: [
-							        <?php echo $bubbleData;  ?>
-							      ],
-							      eval: function (item) {return item.count;},
-							      classed: function (item) {return item.text.split(" ").join("");}
-							    },
-							    plugins: [
-							      {
-							        name: "lines",
-							        options: {
-							          format: [
-							            {// Line #0
-							              textField: "count",
-							              classed: {count: true},
-							              style: {
-							                "font-size": "28px",
-							                "font-family": "Source Sans Pro, sans-serif",
-							                "text-anchor": "middle",
-							                fill: "white"
-							              },
-							              attr: {
-							                dy: "0px",
-							                x: function (d) {return d.cx;},
-							                y: function (d) {return d.cy;}
-							              }
-							            },
-							            {// Line #1
-							              textField: "text",
-							              classed: {text: true},
-							              style: {
-							                "font-size": "14px",
-							                "font-family": "Source Sans Pro, sans-serif",
-							                "text-anchor": "middle",
-							                fill: "white"
-							              },
-							              attr: {
-							                dy: "20px",
-							                x: function (d) {return d.cx;},
-							                y: function (d) {return d.cy;}
-							              }
-							            }
-							          ],
-							          centralFormat: [
-							            {// Line #0
-							              style: {"font-size": "50px"},
-							              attr: {}
-							            },
-							            {// Line #1
-							              style: {"font-size": "30px"},
-							              attr: {dy: "40px"},
-							            }
-							          ]
-							        }
-							      }]
-							  });
-							});
-						</script>  
-						
-						<script src="http://phuonghuynh.github.io/js/bower_components/d3/d3.min.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js"></script>
-						<script src="assets/js/central-click.js"></script>
-						<script src="http://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js"></script>
+					
+Pie Chart
+<script>
+$(document).ready(function() {
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart", true);
+xhr.send();
+xhr.onloadend = function () {
+var data=JSON.parse(xhr.responseText);
+
+var ctx = document.getElementById("pieChart").getContext("2d");
+var myDoughnutChart = new Chart(ctx, {
+type: 'doughnut',
+data: data,
+    options: {
+        legend: {
+            display: false,
+            }
+        }
+});
+}
+});
+</script> 
+<canvas id="pieChart"></canvas>
 
 					</div>
 					<div class="col-sm-8">
@@ -180,6 +142,8 @@
 				</div>
 			</div>
 		</section>
+
+
 		
 	</body>
 </html>

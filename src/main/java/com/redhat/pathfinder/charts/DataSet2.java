@@ -9,6 +9,7 @@ public class DataSet2 {
   
   private List<Integer> data;
   private Integer borderWidth;
+  private Integer hoverBorderWidth;  
   private List<String> backgroundColor;
   private List<String> borderColor;
   private String label;
@@ -50,6 +51,9 @@ public class DataSet2 {
   }
   public void setBackgroundColor(List<String> backgroundColor) {
     this.backgroundColor = backgroundColor;
+  }
+   public void setHoverBorderWidth(Integer hoverBorderWidth) {
+    this.hoverBorderWidth = hoverBorderWidth;
   }
   public List<String> getBorderColor() {
     if (borderColor==null) borderColor=new ArrayList<String>();

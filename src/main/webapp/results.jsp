@@ -60,8 +60,13 @@
 					  progress.Appcount=progress.Appcount.toString();
 					  progress.Assessed=progress.Assessed.toString();
 					  progress.Reviewed=progress.Reviewed.toString();
+					  if (progress.Appcount == progress.Assessed && progress.Appcount == progress.Reviewed) {
+						console.log("App Count is the same as assessed");			
+						document.getElementById("allDone").innerHTML="<img src=images/ok-48.png>";		  
+					  }
 					  $('#jqmeter-assessed').jQMeter({goal:progress.Appcount,raised:progress.Assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
 					  $('#jqmeter-reviewed').jQMeter({goal:progress.Appcount,raised:progress.Reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
+                   
 					});
 					
 					// ### Get Application & Results
@@ -118,6 +123,7 @@
 						<div id="jqmeter-assessed"></div>
 						Reviewed
 						<div id="jqmeter-reviewed"></div>
+						<div id="allDone"></div>
 						<style>
 						.therm{height:30px;border-radius:5px;}
 						.outer-therm{margin:20px 0;}
