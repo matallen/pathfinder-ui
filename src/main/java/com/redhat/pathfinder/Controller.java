@@ -94,10 +94,23 @@ public class Controller{
     
     DataSet2 ds=new DataSet2();
     List<Integer> data=new ArrayList<Integer>();
-    for(String x:d) data.add(Integer.parseInt(x.split(":")[1]));
+//    for(String x:d) data.add(Integer.parseInt(x.split(":")[1]));
+    for(String x:d) data.add(1);
+    
     ds.setData(data);
     
+    List<String> backgrounds=new ArrayList<String>();
+    for(String x:d){
+      String color=x.split(":")[2];
+      if (color.equals("RED")) backgrounds.add("rgb(255, 99, 132)");
+      if (color.equals("AMBER")) backgrounds.add("rgb(255, 205, 86)");
+      if (color.equals("GREEN")) backgrounds.add("rgb(0, 255, 0)");
+      if (color.equals("UNKNOWN")) backgrounds.add("rgb(50, 50, 50)");
+    }
+    ds.setBackgroundColor(backgrounds);
+    
     c.getDatasets().add(ds);
+//    c.getDatasets().get(0).getBackgroundColor()
     
     return Response.status(200).entity(Json.newObjectMapper(true).writeValueAsString(c)).build();
     
