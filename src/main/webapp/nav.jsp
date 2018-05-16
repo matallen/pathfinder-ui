@@ -12,9 +12,8 @@
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="index.jsp">Home</a></li>
-					<li><a href="http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/" target=_blank>Assessment</a></li>
-					<!--<li><a href="results.jsp">Results</a></li>-->
-					<li><a href="manageCustomers.jsp">Customers</a></li>
+					<li><a href="survey.jsp" target=_blank>Assessment</a></li>
+					<li><a href="manageCustomers.jsp">Admin</a></li>
 					<li><a href="workflow.jsp">Workflow</a></li>
 					<li><a href="credits.php">Credits</a></li>
 				</ul>

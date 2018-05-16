@@ -114,9 +114,9 @@
 						<!-- ### Progress -->
 						
 						<script src="assets/js/jqmeter.min.js"></script>
-						Assessed:
+						Assessed
 						<div id="jqmeter-assessed"></div>
-						Reviewed:
+						Reviewed
 						<div id="jqmeter-reviewed"></div>
 						<style>
 						.therm{height:30px;border-radius:5px;}
