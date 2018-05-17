@@ -1,9 +1,13 @@
 function send(action, uri, data){
   var xhr = new XMLHttpRequest();
   var ctx = "${pageContext.request.contextPath}";
-  var url=ctx+"/api"+uri;
+  //var url=ctx+"/api"+uri;
+  var url=uri;
+  
   xhr.open(action, url, true);
   if (data != undefined){
+    xhr.setRequestHeader("Content-type", "application/json");
+    console.log("send data = "+JSON.stringify(data));
     xhr.send(JSON.stringify(data));
   }else{
     xhr.send();

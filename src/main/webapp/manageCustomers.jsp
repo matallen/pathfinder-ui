@@ -41,7 +41,11 @@
 		<script>
 
 			function deleteItem(id){
-			  delete(Utils.SERVER+"/api/pathfinder/customers/"+id);
+				if (!confirm("Are you sure?")){
+					return false;
+				}else{
+			  	httpDelete(Utils.SERVER+"/api/pathfinder/customers/"+id);
+				}
 			}
 			// mat - move this to the edit form script, this is not datatable code
 			function load(id){
@@ -98,7 +102,7 @@
 										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png); background-repeat: no-repeat'></div>";
 									}}
 				         ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
+										return "<div class='btn btn-image' title='Delete' onclick='return deleteItem(\""+row["CustomerId"]+"\");' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
 									}}
 			        ]
 			    } );

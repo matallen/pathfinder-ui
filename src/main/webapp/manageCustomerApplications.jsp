@@ -121,41 +121,12 @@
 		return Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id;
 	}
 	function getSaveUrl(id){
-		return Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id;
+		return Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/";
 	}
 	function getIdFieldName(){
 		return "Id";
 	}
 
-	function load(id){
-	  document.getElementById("edit-ok").innerHTML="Update";
-	  document.getElementById("exampleModalLabel").innerHTML=document.getElementById("exampleModalLabel").innerHTML.replace("New", "Update");
-	  var xhr = new XMLHttpRequest();
-	  var ctx = "${pageContext.request.contextPath}";
-	  xhr.open("GET", Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id, true);
-	  xhr.send();
-	  xhr.onloadend = function () {
-	    var json=JSON.parse(xhr.responseText);
-	    var form=document.getElementById("form");
-	    for (var i = 0, ii = form.length; i < ii; ++i) {
-	      if (typeof json[form[i].name] == "undefined"){
-	        form[i].value="";
-	      }else{
-	        form[i].value=json[form[i].name];
-	      }
-	    }
-	  }
-	}
-	function save(formId){
-	  var data = {};
-	  var op="";
-	  var form=document.getElementById(formId);
-	  for (var i = 0, ii = form.length; i < ii; ++i) {
-	    if (form[i].name) data[form[i].name]=form[i].value;
-	  }
-	  post(Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id, data);
-	  editFormReset();
-	}
 
 </script>
 
@@ -179,12 +150,14 @@
             <label for="Name" class="control-label">Application Name:</label>
             <input id="Name" name="Name" type="text" class="form-control">
           </div>
-          <!--
           <div class="form-group">
-            <label for="Review" class="control-label">Review:</label>
-            <input id="Review" name="Review" type="text" class="form-control">
+            <label for="Stereotype" class="control-label">Application Profile:</label>
+						<select name="Stereotype" id="Stereotype" class="form-control">
+							<option value="TARGETAPP">Target Application</option>
+							<option value="DEPENDENCY">Dependency</option>
+							<option value="PROFILE">Profile</option>
+						</select>
           </div>
-          -->
           <div class="form-group">
             <label for="Description" class="control-label">Application Description:</label>
             <input id="Description" name="Description" type="text" class="form-control">
