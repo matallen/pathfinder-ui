@@ -93,7 +93,7 @@
 		</script>
     	<div id="wrapper">
 		    <div id="buttonbar">
-		        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="reset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
+		        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
 		    </div>
 		    <div id="tableDiv">
 			    <table id="example" class="display" cellspacing="0" width="100%">
@@ -117,7 +117,16 @@
 <!--#################-->
 
 <script>
-	var idFieldName="Id";
+	function getLoadUrl(id){
+		return Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id;
+	}
+	function getSaveUrl(id){
+		return Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId")+"/applications/"+id;
+	}
+	function getIdFieldName(){
+		return "Id";
+	}
+
 	function load(id){
 	  document.getElementById("edit-ok").innerHTML="Update";
 	  document.getElementById("exampleModalLabel").innerHTML=document.getElementById("exampleModalLabel").innerHTML.replace("New", "Update");
@@ -160,12 +169,12 @@
       </div>
       <div class="modal-body">
         <form id="form">
-        	<!--
-          <div id="form-id" class="form-group">
-            <label for="Id" class="control-label">Application ID:</label>
+        	<!-- ### Hidden ID field -->
+        	<div id="form-id" class="form-group" style="display:none">
+            <label for="Id" class="control-label">Customer Name:</label>
             <input id="Id" name="Id" type="text" class="form-control"/>
           </div>
-        	-->
+
           <div class="form-group">
             <label for="Name" class="control-label">Application Name:</label>
             <input id="Name" name="Name" type="text" class="form-control">

@@ -50,7 +50,7 @@
 							<div class="content">
 								<header>
 									<a href="manageCustomers.jsp" class="icon fa-line-chart"><span class="label">Icon</span></a>
-									<h3>Results</h3>
+									<h3>Assessments</h3>
 								</header>
 								<p>View and edit assessment results.</p>
 							</div>

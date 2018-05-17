@@ -89,7 +89,7 @@
 			              return "<a href='#' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'>"+row["CustomerName"]+"</a>";
 									}}
 			           ,{ "targets": 2, "orderable": false, "render": function (data,type,row){
-										return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Results</a>";
+										return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Assessments</a>";
 									}}
 			           ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
 										return "<a href='manageCustomerApplications.jsp?customerId="+row["CustomerId"]+"'>Manage Applications</a>";
