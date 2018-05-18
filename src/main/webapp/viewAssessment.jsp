@@ -48,11 +48,7 @@
 				var appId=Utils.getParameterByName("app");
 				var assessmentId=Utils.getParameterByName("assessment");
 
-				var appsCount=assessed=unassessed=notReviewed=reviewed=0;
-				
 				$(document).ready(function() {
-					var done=false;
-					var applicationFullName = "";
 					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(applicationName){
 						document.getElementById("breadcrumb2").innerHTML=applicationName.Name;
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
@@ -71,79 +67,137 @@
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
 
-					
-					httpGetObject("api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart", function(application){
-						console.log(application);
-					});
-
-					
 				});
 				
 				</script>
-				<script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
-				<script>
-					$(document).ready(function() {
-					  var xhr = new XMLHttpRequest();
-					  xhr.open("GET", ctx+uri, true);
-					  xhr.send();
-					  xhr.onloadend = function () {
-					    var data=JSON.parse(xhr.responseText);
-					    var ctx = document.getElementById("chartjs-4").getContext("2d");
-					    var myDoughnutChart = new Chart(ctx, {
-							    type: 'doughnut',
-							    data: data,
-							    options: pieOptions
-							});
-					  }
-					});
-				</script>
-				<div class="chartjs-wrapper">
-					<canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
-				</div>
 				
 				
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="bubbleChart"/></div>
+						<!-- ### CHART GOES HERE -->
+						
+						Assessment Status
+						<script>
+							$(document).ready(function() {
+								var canvas = document.getElementById("pieChart");
+								var xhr = new XMLHttpRequest();
+								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
+								xhr.send();
+								xhr.onloadend = function () {
+									var data=JSON.parse(xhr.responseText);
+									var ctx = document.getElementById("pieChart").getContext("2d");
+									var myDoughnutChart = new Chart(ctx, {
+										type: 'doughnut',
+										data: data,
+							    	options: {
+							        legend: {
+							            display: false,
+							            		}}
+									});
+									
+									// OnClick driving the table of data
+									canvas.onclick=function(evt) {
+							      var activePoints=myDoughnutChart.getElementsAtEvent(evt);
+							      if (activePoints[0]) {
+							        var chartData=activePoints[0]['_chart'].config.data;
+							        var idx=activePoints[0]['_index'];
+											
+							        var label=chartData.labels[idx];
+							        var value=chartData.datasets[0].data[idx];
+											
+							        var table=$('#example').DataTable();
+							        table.columns(2).search(label).draw();
+							      }
+							    };
+							    
+								}
+							});
+					    function resetResults(){
+					    	var table=$('#example').DataTable();
+					      table.columns(2).search("").draw();
+					    }
+						</script>
+						<div>
+							<center>
+								<div style="position:relative;left:4px;top:294px;width:200px;">
+									<a href="#">
+										<img onclick="resetResults(); return false;" style="width:100px;" alt="Reset" src="images/reboot.jpg"/>
+									</a>
+								</div>
+								<canvas id="pieChart"></canvas>
+							</center>
+						</div>
+						
+						<style>
+						#example_filter label{
+							display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
+						}
+						</style>
 					
-Pie Chart
-<script>
-$(document).ready(function() {
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart", true);
-xhr.send();
-xhr.onloadend = function () {
-var data=JSON.parse(xhr.responseText);
-
-var ctx = document.getElementById("pieChart").getContext("2d");
-var myDoughnutChart = new Chart(ctx, {
-type: 'doughnut',
-data: data,
-    options: {
-        legend: {
-            display: false,
-            }
-        }
-});
-}
-});
-</script> 
-<canvas id="pieChart"></canvas>
-
 					</div>
 					<div class="col-sm-8">
+						
 						<!-- ### DATATABLE GOES HERE -->
+						<script>
+							function deleteItem(id){
+							  delete(Utils.SERVER+"/api/pathfinder/notimplemented/"+id);
+							}
+							var colorCfg=new Object();
+							colorCfg["UNKNOWN"]="#808080";
+							colorCfg["RED"]="#FF0000";
+							colorCfg["AMBER"]="#FCC200";
+							colorCfg["GREEN"]="#006400";
+							
+							$(document).ready(function() {
+							    $('#example').DataTable( {
+							        "ajax": {
+							            //"url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
+							            "url": '<%=request.getContextPath()%>/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
+							            "dataSrc": "",
+							            "dataType": "json"
+							        },
+							        "scrollCollapse": true,
+							        "paging":         false,
+							        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
+							        "pageLength" : 10, // default page entries
+							        "searching" : true,
+							        //"order" : [[1,"desc"],[2,"desc"],[0,"asc"]],
+							        "columns": [
+							            { "data": "question" },
+							            { "data": "answer" },
+							            { "data": "rating" },
+							        ]
+							        ,"columnDefs": [
+							        		{ "targets": 2, "orderable": true, "render": function (data,type,row){
+							        		  return "<span style='color:"+colorCfg[row["rating"]]+"'>"+row['rating']+"</span>";
+													}}
+							        ]
+							    } );
+							} );
+						</script>
+				  	<div id="wrapper">
+					    <div id="buttonbar">
+					    </div>
+					    <div id="tableDiv">
+						    <table id="example" class="display" cellspacing="0" width="100%">
+					        <thead>
+				            <tr>
+			                <th align="left">Question</th>
+			                <th align="left">Answer</th>
+			                <th align="left">Rating</th>
+				            </tr>
+					        </thead>
+						    </table>
+						  </div>
+				  	</div>
+				  	
 					</div>
 				</div>
-				
-				
 				
 				<div class="highlights">
 				</div>
 			</div>
 		</section>
-
-
 		
 	</body>
 </html>

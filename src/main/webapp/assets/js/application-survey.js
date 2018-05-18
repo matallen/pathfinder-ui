@@ -30,15 +30,15 @@ var json = {
         "title": "Customer Details",
         "questions": [
             {
-                type: "dropdown",
+                "type": "dropdown",
                 "name": "CUSTNAME",
-                title: "Select the Customer...",
-                isRequired: true,
-                choicesByUrl: {
+                "title": "Select the Customer...",
+                "isRequired": true,
+                "choicesByUrl": {
 //                      url: "api/pathfinder/customers/",
-                      url: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
-                      valueName: "CustomerId",
-                      titleName: "CustomerName"
+                      "url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
+                      "valueName": "CustomerId",
+                      "titleName": "CustomerName"
                 }
             }
         ]
@@ -47,26 +47,26 @@ var json = {
         "title": "Application Details",
         "questions": [
             {
-                type: "dropdown",
+                "type": "dropdown",
                 "name": "ASSMENTNAME",
-                title: "Select the application to be assessed....",
-                isRequired: true,
-                choicesByUrl: {
+                "title": "Select the application to be assessed....",
+                "isRequired": true,
+                "choicesByUrl": {
                         // Ignore the URL this will be replaced by the event handler
                         //url: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/",
-                        valueName: "Id",
-                        titleName: "Name"
+                        "valueName": "Id",
+                        "titleName": "Name"
                 }
             },
             {
-                type: "rating",
+                "type": "rating",
                 "name": "BUSPRIORITY",
-                title: "Whats the level of business criticality of this application?",
-                rateMin: 1,
-                rateMax: 10,
-                rateStep: 1,
-                minRateDescription: "End of Life",
-                maxRateDescription: "Core Business Critical"
+                "title": "Whats the level of business criticality of this application?",
+                "rateMin": 1,
+                "rateMax": 10,
+                "rateStep": 1,
+                "minRateDescription": "End of Life",
+                "maxRateDescription": "Core Business Critical"
             },
             {
                 "type": "radiogroup",
@@ -89,7 +89,7 @@ var json = {
         ]
     }, {
         "title": "Application Dependencies",
-        questions: [
+        "questions": [
             {
                 "type": "radiogroup",
                 "name": "ARCHTYPE",
@@ -157,7 +157,7 @@ var json = {
         ]
     }, {
         "title": "Application Architecture",
-        questions: [{
+        "questions": [{
                 "type": "radiogroup",
                 "name": "RESILIENCY",
                 "title": "Application resiliency",
@@ -214,7 +214,7 @@ var json = {
         ]
     }, {
         "title": "Application Observability",
-        questions: [{
+        "questions": [{
                 "type": "radiogroup",
                 "name": "LOGS",
                 "title": "Application Logging",
@@ -253,7 +253,7 @@ var json = {
         ]
     }, {
         "title": "Application Cross-Cutting concerns",
-        questions: [{
+        "questions": [{
                 "type": "radiogroup",
                 "name": "TEST",
                 "title": "Application Testing",
@@ -290,13 +290,12 @@ var json = {
                 "choices": ["0|Unknown","1|Desktop-led container implementation designed to support running app on a laptop. Container treated like a VM with multiple services", "2|Use of a init process within the container to manage multiple container processes that run independently but are tightly integrated", "3|Running process id agnostic", "4|High overhead health checks", "5|Fast graceful shutdown behaviour"]
             },
             {
-                type: "comment",
+                "type": "comment",
                 "name": "NOTES",
-                title: "Additional notes or comments"
+                "title": "Additional notes or comments"
             }
         ]
-    }
-    ],
+    }],
     completedHtml: "<p><h4>Thank you for completing the Pathfinder Assessment.  Please click <a href=index.php>Here</a> to return to the main page."
 }
 
