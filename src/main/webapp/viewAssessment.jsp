@@ -23,10 +23,8 @@
   	
 		<section id="banner2">
 			<div class="inner">
-				<h1>Assessment View for <span id="customerName"></span></h1>
-				<!--
+				<h1>Assessment Details for <span id="customerName"/></h1>
 				<p>View the results of an assessment and review output.</p>
-				-->
 			</div>
 		</section>
 		
@@ -49,8 +47,9 @@
 				var assessmentId=Utils.getParameterByName("assessment");
 
 				$(document).ready(function() {
-					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(applicationName){
-						document.getElementById("breadcrumb2").innerHTML=applicationName.Name;
+					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(application){
+						document.getElementById("breadcrumb2").innerHTML=application.Name;
+						//document.getElementById("applicationName").innerHTML=application.Name;
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
 					

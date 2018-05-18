@@ -14,3 +14,6 @@
 table.dataTable tbody td {
   padding: 2px 2px;
 }
+@media print {
+	h1 {page-break-before: always;}
+}
