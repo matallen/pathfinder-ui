@@ -15,6 +15,13 @@ body {
   font-family: 'overpass'  
   }
   
+#toggleNodes {	
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 10;
+}
+  
 #panel, #flip {
     padding: 5px;
     text-align: center;
