@@ -35,8 +35,7 @@ var json = {
                 "title": "Select the Customer...",
                 "isRequired": true,
                 "choicesByUrl": {
-//                      url: "api/pathfinder/customers/",
-                      "url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
+                      "url": "/api/pathfinder/customers/",
                       "valueName": "CustomerId",
                       "titleName": "CustomerName"
                 }
@@ -97,7 +96,7 @@ var json = {
                 "title": "Architectural Suitability",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Massive Monolith (high memory, high CPU) singleton deployment", "2|Massive Monolith (high memory, high CPU) , non singleton, difficult to scale", "3|Complex Monolith -  strict runtime dependency startup order, non resilient architecture", "4|Modern resilient monolith e.g. retries, circuit breaker etc", "5|Independently deployable microservices"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|Massive Monolith (high memory, high CPU) singleton deployment", "2-AMBER|Massive Monolith (high memory, high CPU) , non singleton, difficult to scale", "3-AMBER|Complex Monolith -  strict runtime dependency startup order, non resilient architecture", "4-GREEN|Modern resilient monolith e.g. retries, circuit breaker etc", "5-GREEN|Independently deployable microservices"]
             },
             {
                 "type": "radiogroup",
@@ -145,14 +144,14 @@ var json = {
                 "choices": ["0|Unknown","1|Availability only verified when processing traffic", "2|Complex strict startup order required", "3|Application not ready until dependencies are available ", "4|Limited processing available if dependencies are unavailable", "5|No dependencies"]
             },
             {
-                "type": "tagbox",
+                "type": "checkbox",
+                "name": "DEPSOUTLIST",
+                "title": "Please add southbound dependencies...",
                 "isRequired": false,
                 "choicesByUrl": {
                     // Ignore the URL this will be replaced by the event handler
 //                    "url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/12345/applications/"
-                },
-                "name": "DEPSOUTLIST",
-                "title": "Please add southbound dependencies..."
+                }
             }
         ]
     }, {
@@ -173,7 +172,7 @@ var json = {
                 "comment": "How does the app communicate with the external world",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Non-IP protocols e.g. serial, IPX, AppleTalk", "2|IP based - hostname/ip encapsulated in payload", "3|Traffic with no host addressing e.g. SSH ", "4|Traffic with host addressing embedded in SSL SNI header ", "5|HTTP/HTTPS"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Non-IP protocols e.g. serial, IPX, AppleTalk", "2-RED|IP based - hostname/ip encapsulated in payload", "3-AMBER|Traffic with no host addressing e.g. SSH ", "4-GREEN|Traffic with host addressing embedded in SSL SNI header ", "5-GREEN|HTTP/HTTPS"]
             },
             {
                 "type": "radiogroup",
@@ -200,7 +199,7 @@ var json = {
                 "comment": "How is the application clustered ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Application cluster mechanism tightly coupled to application design & implementation", "2|Application cluster provided by common runtime dependencies of application binaries", "3|Application clustering mostly provided by application runtime platform, with application integrating with these mechanisms through runtime dependencies", "4|Loosely coupled bespoke clustering solution", "5|Memberless and stateless runtimes"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Application cluster mechanism tightly coupled to application design & implementation", "2-RED|Application cluster provided by common runtime dependencies of application binaries", "3-AMBER|Application clustering mostly provided by application runtime platform, with application integrating with these mechanisms through runtime dependencies", "4-GREEN|Loosely coupled bespoke clustering solution", "5-GREEN|Memberless and stateless runtimes"]
             },
             {
                 "type": "radiogroup",
@@ -296,8 +295,8 @@ var json = {
             }
         ]
     }],
-    completedHtml: "<p><h4>Thank you for completing the Pathfinder Assessment.  Please click <a href=index.php>Here</a> to return to the main page."
-}
+    completedHtml: "<p><h4>Thank you for completing the Pathfinder Assessment.  Please click <a href=/>Here</a> to return to the main page."
+};
 
 window.survey = new Survey.Model(json);
 
@@ -311,7 +310,7 @@ survey
             //dependencies array needs special handling
             var tmpDEPSOUTLIST = tmpResult.DEPSOUTLIST;
             delete tmpResult.DEPSOUTLIST;
-            xmlhttp.open("POST", "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/"+cust+"/applications/"+assm+"/assessments");
+            xmlhttp.open("POST", Utils.SERVER+"/api/pathfinder/customers/"+cust+"/applications/"+assm+"/assessments");
             xmlhttp.setRequestHeader("Content-Type", "application/json");
             myObj = { "payload": tmpResult,"deps":tmpDEPSOUTLIST, "datetime":new Date()};
             xmlhttp.send(JSON.stringify(myObj));
@@ -320,20 +319,35 @@ survey
 survey
     .onPartialSend
     .add(function (result) {
+    		
+        //var c = survey.getQuestionByName('CUSTNAME');
+        //c.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/";
+        //c.choicesByUrl.valueName = "Id";
+        //c.choicesByUrl.titleName = "Name";
+        //c.choicesByUrl.run();
+        
         var q = survey.getQuestionByName('ASSMENTNAME');
         var tmp = result.data.CUSTNAME;
-        q.choicesByUrl.url = "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/"+tmp+"/applications/";
+        q.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+tmp+"/applications/";
         q.choicesByUrl.valueName = "Id";
         q.choicesByUrl.titleName = "Name";
         q.choicesByUrl.run();
 
         var v = survey.getQuestionByName('DEPSOUTLIST');
-        v.choicesByUrl.url = "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/"+tmp+"/applications/";
+        v.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+tmp+"/applications/";
         v.choicesByUrl.valueName = "Id";
         v.choicesByUrl.titleName = "Name";
         v.choicesByUrl.run();
     });
 
+//$(document).ready(function(){
+//  result.data.CUSTNAME="Customer 1";
+//	console.log($("#sq_100i").val());
+//});
+
+//survey.data = {
+//    "CUSTNAME" : "Customer 1"
+//};
 
 $("#surveyElement").Survey({
     model: survey

@@ -11,16 +11,11 @@
 	<link href="assets/css/main.css" rel="stylesheet" />
   <link href="assets/css/breadcrumbs.css" rel="stylesheet" />
   
+  <!-- #### DATATABLES DEPENDENCIES ### -->
+  <link rel="import" href="datatables-dependencies.jsp">
+
   <!-- #### DATATABLES ### -->
-  <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css" rel="stylesheet">
-  <link href="assets/css/bootstrap-3.3.7.min.css" rel="stylesheet" />
-	<link href="assets/css/datatables-addendum.css" rel="stylesheet" />
-  <script src="assets/js/jquery-3.3.1.min.js"></script>
-  <script src="assets/js/bootstrap-3.3.7.min.js"></script>
-  <script src="assets/js/jquery.dataTables-1.10.16.js"></script>
-  <script src="datatables-functions.js"></script>
-	<script src="datatables-plugins.js"></script>
-	
+  
 	<body class="is-preload">
   	<%@include file="nav.jsp"%>
   	
@@ -82,7 +77,7 @@
 			        ]
 			        ,"columnDefs": [
 				      	 { "targets": 2, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
+									return "<div class='btn btn-image' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
 								}}
 			        	,{ "targets": 3, "orderable": false, "render": function (data,type,row){
 									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
