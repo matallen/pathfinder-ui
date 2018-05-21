@@ -35,7 +35,8 @@ var json = {
                 "title": "Select the Customer...",
                 "isRequired": true,
                 "choicesByUrl": {
-                      "url": "/api/pathfinder/customers/",
+                      "url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
+                      //"url": "http://localhost:8080/api/pathfinder/customers/",
                       "valueName": "CustomerId",
                       "titleName": "CustomerName"
                 }
@@ -74,7 +75,7 @@ var json = {
                 "comment": "Does the app team understand and actively develop the application ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Application developed by 3rd party or COTS application ", "2|In maintenance mode, no app SME knowledge, EOL imminent", "3|Maintenance mode, SME knowledge available", "4|Actively developed, SME knowledge available", "5|New Greenfield application"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|Application developed by 3rd party or COTS application ", "2-AMBER|In maintenance mode, no app SME knowledge, EOL imminent", "3-AMBER|Maintenance mode, SME knowledge available", "4-GREEN|Actively developed, SME knowledge available", "5-GREEN|New Greenfield application"]
             },
             {
                 "type": "radiogroup",
@@ -83,7 +84,7 @@ var json = {
                 "comment": "Does the application have any legal compliance requirements e.g. PCI, HIPPA etc Does the application have any licensing requirements e.g. per core licensing",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|High compliance requirements - both Legal and licensing", "2|Licensing compliance -  licensing servers", "3|Legal compliance - distinct hardware, isolated clusters, compliance certification","4| None"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|High compliance requirements - both Legal and licensing", "2-AMBER|Licensing compliance -  licensing servers", "3-AMBER|Legal compliance - distinct hardware, isolated clusters, compliance certification","4-GREEN| None"]
             }
         ]
     }, {
@@ -105,7 +106,7 @@ var json = {
                 "comment": "Does the application require specific hardware features to run on",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Non X86 CPU requirements", "2|Custom or legacy hardware required", "3|GPU, specific worker node hardware requirements", "4|X86 CPU architecture based"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Non X86 CPU requirements", "2-RED|Custom or legacy hardware required", "3-GREEN|GPU, specific worker node hardware requirements", "4-GREEN|X86 CPU architecture based"]
             },
             {
                 "type": "radiogroup",
@@ -114,7 +115,7 @@ var json = {
                 "comment": "Does the application require specific hardware features to run on",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Non-supported OS - OSX,  AIX, UNIX, SOLARIS", "2|Linux with custom kernel drivers or specific kernel version", "3|Linux with custom capabilities e.g. setcomp", "4|Standard Linux - root access required", "5|Standard Linux - no root access required"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Non-supported OS - OSX,  AIX, UNIX, SOLARIS", "2-RED|Linux with custom kernel drivers or specific kernel version", "3-AMBER|Linux with custom capabilities e.g. setcomp", "4-AMBER|Standard Linux - root access required", "5-GREEN|Standard Linux - no root access required"]
             },
             {
                 "type": "radiogroup",
@@ -123,7 +124,7 @@ var json = {
                 "comment": "How dependent is the application on other systems and their failure modes",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Not supported/recommended to run on containers or EOL", "2|Containers not supported by vendor", "3|Supported but with limited functionality", "4|Supported but relies on self built images", "5|Fully supported, certified images available"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Not supported/recommended to run on containers or EOL", "2-RED|Containers not supported by vendor", "3-AMBER|Supported but with limited functionality", "4-AMBER|Supported but relies on self built images", "5-GREEN|Fully supported, certified images available"]
             },
             {
                 "type": "radiogroup",
@@ -132,7 +133,7 @@ var json = {
                 "comment": "How dependent are other systems on this application and how easy are they to change",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Difficult to change dependent systems - legacy, 3rd party, external", "2|Many dependent systems, possible to change but expensive and time consuming", "3|Many dependent systems, possible to change as internally managed", "4|Internal dependencies only", "5|No dependent systems"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Difficult to change dependent systems - legacy, 3rd party, external", "2-AMBER|Many dependent systems, possible to change but expensive and time consuming", "3-AMBER|Many dependent systems, possible to change as internally managed", "4-GREEN|Internal dependencies only", "5-GREEN|No dependent systems"]
             },
             {
                 "type": "radiogroup",
@@ -141,7 +142,7 @@ var json = {
                 "comment": "How dependent are other systems on this application and how easy are they to change",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Availability only verified when processing traffic", "2|Complex strict startup order required", "3|Application not ready until dependencies are available ", "4|Limited processing available if dependencies are unavailable", "5|No dependencies"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Availability only verified when processing traffic", "2-AMBER|Complex strict startup order required", "3-AMBER|Application not ready until dependencies are available ", "4-GREEN|Limited processing available if dependencies are unavailable", "5-GREEN|No dependencies"]
             },
             {
                 "type": "checkbox",
@@ -163,7 +164,7 @@ var json = {
                 "comment": "How resilient is the application and how well does it recover from outages",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Application errors when southbound dependencies unavailable and doesn't recover", "2|Application errors when dependency unavailable but recovers once dependency is available", "3|Application functionality limited when dependency is unavailable but recovers once dependency is available", "4|Application employs resilient architecture patterns e.g. circuit breaker, retries etc ", "5|Chaos Engineering principlals followed, application containers randomly terminated to test resiliency"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Application errors when southbound dependencies unavailable and doesn't recover", "2-AMBER|Application errors when dependency unavailable but recovers once dependency is available", "3-AMBER|Application functionality limited when dependency is unavailable but recovers once dependency is available", "4-GREEN|Application employs resilient architecture patterns e.g. circuit breaker, retries etc ", "5-GREEN|Chaos Engineering principlals followed, application containers randomly terminated to test resiliency"]
             },
             {
                 "type": "radiogroup",
@@ -181,7 +182,7 @@ var json = {
                 "comment": "Does the application have any state requirements ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Shared memory between applications", "2|Managed/Coordinated externally from application e.g. external Zookeeper", "3|State maintained in OSE based application requiring non shared, non ephemeral storage", "4|Shared disk between application instances ", "5|Stateless/Ephemeral container storage"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|Shared memory between applications", "2-AMBER|Managed/Coordinated externally from application e.g. external Zookeeper", "3-AMBER|State maintained in OSE based application requiring non shared, non ephemeral storage", "4-GREEN|Shared disk between application instances ", "5-GREEN|Stateless/Ephemeral container storage"]
             },
             {
                 "type": "radiogroup",
@@ -190,7 +191,7 @@ var json = {
                 "comment": "Does the application have any unusual concerns around service discovery?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Uses Discovery technologies that are not k8s suitable e.g. hardcoded ip addresses, custom cluster manager", "2|Application needs restart on cluster changes", "3|Service discovery layered ontop of k8s e.g. hashicorp consul, netflix eureka", "4|Standard k8s DNS name resolution, application resilient to cluster changes "]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Uses Discovery technologies that are not k8s suitable e.g. hardcoded ip addresses, custom cluster manager", "2-RED|Application needs restart on cluster changes", "3-AMBER|Service discovery layered ontop of k8s e.g. hashicorp consul, netflix eureka", "4-GREEN|Standard k8s DNS name resolution, application resilient to cluster changes "]
             },
             {
                 "type": "radiogroup",
@@ -208,7 +209,7 @@ var json = {
                 "comment": "What does the runtime profile of the application look like ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|High CPU,Storage,IO, deterministic real time execution requirements", "2|Latency sensitive applications e.g. voice", "3|High burstable memory/cpu needs", "4|Controlled burstable memory/cpu needs", "5|Deterministic production profile"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|High CPU,Storage,IO, deterministic real time execution requirements", "2-RED|Latency sensitive applications e.g. voice", "3-AMBER|High burstable memory/cpu needs", "4-GREEN|Controlled burstable memory/cpu needs", "5-GREEN|Deterministic production profile"]
             }
         ]
     }, {
@@ -220,7 +221,7 @@ var json = {
                 "comment": "How easy is it to determine how the application is performing and how to get information from it.",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|No logging available, internal only with no export mechanism", "2|Custom binary logs exposed using non-standard protocols", "3|Logs exposed via syslog", "4|Log entries written to filesystem", "5|Configurable logging can be sent to STDOUT "]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|No logging available, internal only with no export mechanism", "2-RED|Custom binary logs exposed using non-standard protocols", "3-AMBER|Logs exposed via syslog", "4-GREEN|Log entries written to filesystem", "5-GREEN|Configurable logging can be sent to STDOUT "]
             },
             {
                 "type": "radiogroup",
@@ -229,7 +230,7 @@ var json = {
                 "comment": "How easy is it to determine how the application is performing and how to get information from it.",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|No exposed metrics", "2|Internal metrics but not exposed", "3|Metrics exposed via binary protocols e.g. SNMP", "4|3rd party metrics solution e.g. dynatrace, app-dynamics etc", "5|Prometheus, native k8s metrics, integration with autoscalers"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|No exposed metrics", "2-AMBER|Internal metrics but not exposed", "3-AMBER|Metrics exposed via binary protocols e.g. SNMP", "4-GREEN|3rd party metrics solution e.g. dynatrace, app-dynamics etc", "5-GREEN|Prometheus, native k8s metrics, integration with autoscalers"]
             },
             {
                 "type": "radiogroup",
@@ -238,7 +239,7 @@ var json = {
                 "comment": "How easy is it to determine how the application is performing and how to get information from it.",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|No health or readyiness probes available", "2|Custom watchdog process monitoring and managing the application", "3|Basic application health requires semi-complex scripting", "4|Scriptable liveness and readyiness probes", "5|Probes execute synthetic transactions to verify application health"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|No health or readyiness probes available", "2-RED|Custom watchdog process monitoring and managing the application", "3-AMBER|Basic application health requires semi-complex scripting", "4-GREEN|Scriptable liveness and readyiness probes", "5-GREEN|Probes execute synthetic transactions to verify application health"]
             },
             {
                 "type": "radiogroup",
@@ -247,7 +248,7 @@ var json = {
                 "comment": "How is the application configured ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Compiled/Patched into application at installation time", "2|Externally stored and loaded using specific key e.g. hostname, ip address", "3|Configuration baked into application and enabled via system property at runtime", "4|Configuration files loaded from shared disk", "5|Configuration files loaded by application from mounted files, environment variables"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Compiled/Patched into application at installation time", "2-RED|Externally stored and loaded using specific key e.g. hostname, ip address", "3-AMBER|Configuration baked into application and enabled via system property at runtime", "4-GREEN|Configuration files loaded from shared disk", "5-GREEN|Configuration files loaded by application from mounted files, environment variables"]
             }
         ]
     }, {
@@ -259,7 +260,7 @@ var json = {
                 "comment": "What kind of testing does the application undergo ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Manual testing only", "2|Minimal automated testing, UI focused only ", "3|Automated unit & regression testing, basic CI pipelines", "4|Highly repeatable automated testing - Unit, Integration, smoke tests before production deployment, modern test practices followed", "5|Chaos Engineering principlals followed. Testing in production e.g. A/B, experimentation"]
+                "choices": ["0-UNKNOWN|Unknown","1-AMBER|Manual testing only", "2-AMBER|Minimal automated testing, UI focused only ", "3-AMBER|Automated unit & regression testing, basic CI pipelines", "4-GREEN|Highly repeatable automated testing - Unit, Integration, smoke tests before production deployment, modern test practices followed", "5-GREEN|Chaos Engineering principlals followed. Testing in production e.g. A/B, experimentation"]
             },
             {
                 "type": "radiogroup",
@@ -268,7 +269,7 @@ var json = {
                 "comment": "How is the application secured ?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|HSM, hardware based encryption devices", "2|Certs, Keys bound to application IP addresses, generated at runtime per application instance", "3|Keys/Certs compiled into application", "4|Certificates/Keys loaded via shared disk", "5|Certificates/Keys loaded via files"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|HSM, hardware based encryption devices", "2-RED|Certs, Keys bound to application IP addresses, generated at runtime per application instance", "3-AMBER|Keys/Certs compiled into application", "4-GREEN|Certificates/Keys loaded via shared disk", "5-GREEN|Certificates/Keys loaded via files"]
             },
             {
                 "type": "radiogroup",
@@ -277,7 +278,7 @@ var json = {
                 "comment": "Does the application have any unusual concerns around clustering or service discovery?",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Manual documented steps", "2|Manual documented steps, some basic automation", "3|Simple automated deployment scripts", "4|Automated deployment, but manual, slow, promotion through stages", "5|Full CD Pipeline in place, promoting Applications through the stages;  B/G + Canary capable"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Manual documented steps", "2-RED|Manual documented steps, some basic automation", "3-AMBER|Simple automated deployment scripts", "4-AMBER|Automated deployment, but manual, slow, promotion through stages", "5-GREEN|Full CD Pipeline in place, promoting Applications through the stages;  B/G + Canary capable"]
             },
             {
                 "type": "radiogroup",
@@ -286,7 +287,7 @@ var json = {
                 "comment": "Is the application already available as a container image? How well suited to cloud native is the existing containerisation.",
                 "isRequired": true,
                 "colCount": 1,
-                "choices": ["0|Unknown","1|Desktop-led container implementation designed to support running app on a laptop. Container treated like a VM with multiple services", "2|Use of a init process within the container to manage multiple container processes that run independently but are tightly integrated", "3|Running process id agnostic", "4|High overhead health checks", "5|Fast graceful shutdown behaviour"]
+                "choices": ["0-UNKNOWN|Unknown","1-RED|Desktop-led container implementation designed to support running app on a laptop. Container treated like a VM with multiple services", "2-RED|Use of a init process within the container to manage multiple container processes that run independently but are tightly integrated", "3-GREEN|Running process id agnostic", "4-GREEN|High overhead health checks", "5-GREEN|Fast graceful shutdown behaviour"]
             },
             {
                 "type": "comment",
