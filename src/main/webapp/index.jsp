@@ -24,7 +24,7 @@
 				<div class="inner">
 					<h1>Pathfinder</h1>
 					<p>Pathfinder is an application assessment which can quickly assist a customer with creating a strategy for containerisation of their applications.</div>
-				<video autoplay loop muted playsinline src="images/banner.mp4"></video>
+				<video autoplay loop muted playsinline src="images/path-photo-clip.png"></video>
 			</section>
 
 		<!-- Highlights -->
