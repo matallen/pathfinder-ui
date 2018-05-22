@@ -136,6 +136,8 @@
 							        ]
 							        ,"columnDefs": [
 							        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
+							        									              console.log(row);
+
 							              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='survey.jsp'>No</a>")+"</span>";
 													}},
 													{ "targets": 2, "orderable": true, "render": function (data,type,row){
@@ -149,7 +151,8 @@
 							              //return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							              return row['Decision']==null?"":row['Decision'];
+										             return row['Decision']==null?"":row['Decision'];
+//							              return row;
 													}},
 													{ "targets": 5, "orderable": true, "render": function (data,type,row){
 							              return row['WorkEffort']==null?"":row['WorkEffort'];
