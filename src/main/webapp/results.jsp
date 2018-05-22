@@ -136,7 +136,7 @@
 							        ]
 							        ,"columnDefs": [
 							        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
-							        									              console.log(row);
+
 
 							              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='survey.jsp'>No</a>")+"</span>";
 													}},
@@ -151,13 +151,23 @@
 							              //return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-										             return row['Decision']==null?"":row['Decision'];
-//							              return row;
+							                  var randomThing = JSON.parse(row['Decision']);
+													if (randomThing==null) {
+														return "";													
+													} else {
+							              return randomThing.rank;
+							              }
 													}},
 													{ "targets": 5, "orderable": true, "render": function (data,type,row){
-							              return row['WorkEffort']==null?"":row['WorkEffort'];
+							                  var randomThing = JSON.parse(row['WorkEffort']);
+													if (randomThing==null) {
+														return "";													
+													} else {
+							              return randomThing.rank;
+							              }
+//							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}},
-							            { "targets": 7, "orderable": false, "render": function (data,type,row){
+								            { "targets": 7, "orderable": false, "render": function (data,type,row){
 							            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
 													}}
 							        ]

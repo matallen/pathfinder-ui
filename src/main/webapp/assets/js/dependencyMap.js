@@ -31,21 +31,16 @@
     
     // create an array with edges
     var edges = new vis.DataSet([
-        {from: 1, to: 3},
         {from: 1, to: 2},
         {from: 2, to: 4, arrows: "from"},
         {from: 2, to: 5,arrows: "from", dashes:true},
         {from: 1, to: 5, arrows: "from"},
         {from: 1, to: 6, arrows: "to"},
         {from: 3, to: 6, arrows: "from"},
-        {from: 3, to: 9, arrows: "to"},
         {from: 4, to: 8, arrows: "from"},
         {from: 5, to: 8, arrows: "to", dashes:true},
         {from: 8, to: 10, arrows: "to"},
         {from: 9, to: 10},
-        {from: 10, to: 3}
-
-
     ]);
     
     
