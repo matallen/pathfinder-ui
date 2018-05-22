@@ -59,6 +59,8 @@
 						document.getElementById("breadcrumb1").innerHTML="<a href='results.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
 
 					});
+					
+					document.getElementById("AssessmentId").value=assessmentId;
 
 				});
 				
@@ -81,7 +83,7 @@
 								var canvas = document.getElementById("pieChart");
 								var xhr = new XMLHttpRequest();
 //								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
-								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+								xhr.open("GET", "http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 								xhr.send();
 								xhr.onloadend = function () {
 									var data=JSON.parse(xhr.responseText);
@@ -201,8 +203,8 @@
 <p>Please use this section to provide your assessment of the possible migration/modernisation plan and an effort estimation.</p>
 
 <form action="#" id="form" method="post">
-	<input type="hidden" name="reviewSubmitted" value="true" />
-	
+	<input type="hidden" id="AssessmentId" name="AssessmentId" value="set by script"/>
+	<input type="hidden" id="ReviewTimestamp" name="ReviewTimestamp" value="2018-03-14 03:23:29pm"/>
 	<div class="row">
 		<div class="col-sm-3">
 			<h4>Proposed Action</h4>
@@ -216,7 +218,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-3">
-			<select name="proposedAction" id="proposedAction">
+			<select name="ReviewDecision" id="ReviewDecision">
 				<option value="REHOST">Re-host</option>
 				<option value="REPLATFORM">Re-platform</option>
 				<option value="REFACTOR">Refactor</option>
@@ -226,7 +228,7 @@
 			</select>
 		</div>
 		<div class="col-sm-3">
-			<select name="effortEstimate" id="effortEstimate">
+			<select name="WorkEffort" id="WorkEffort">
 				<option value="SMALL">Small</option>
 				<option value="MEDIUM">Medium</option>
 				<option value="LARGE">Large</option>
@@ -234,23 +236,66 @@
 			</select> 
 		</div>
 		<div class="col-sm-6">
-			<textarea name="supportingNotes" style="width:400px"></textarea>
+			<textarea name="ReviewNotes" style="width:400px"></textarea>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-3">
+			<h4>Business Priority</h4>
+		</div>
+		<div class="col-sm-3">
+			<h4>Work Priority</h4>
+		</div>
+		<div class="col-sm-3">
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-3"> (1=low, 10=high)
+			<select type="text" name="BusinessPriority">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+			</select>
+		</div>
+		<div class="col-sm-3"> (1=low, 10=high)
+			<select type="text" name="WorkPriority">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
 			<input type="button" onclick="postReview('form');" value="Submit Review">
 		</div>
+
 	</div>
 	<script>
 		function postReview(formId){
 	    var form=document.getElementById(formId);
+		  
 	    var data = {};
 	    for (var i = 0, ii = form.length; i < ii; ++i) {
 		    if (form[i].name) data[form[i].name]=form[i].value;
 		  }
+		  
+		  console.log("POSTING: "+data);
 	    post(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/review", data);
-	    //window.location.href = "results.jsp?customerId="+customerId;
+	    window.location.href = "results.jsp?customerId="+customerId;
 		}
 	</script>
 	

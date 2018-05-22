@@ -86,16 +86,19 @@
 			           { "targets": 0, "orderable": true, "render": function (data,type,row){
 			              return "<a href='#' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'>"+row["CustomerName"]+"</a>";
 									}}
-			           ,{ "targets": 2, "orderable": false, "render": function (data,type,row){
-										return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Assessments</a>";
+								 ,{ "targets": 2, "orderable": false, "render": function (data,type,row){
+										return "<a href='report.jsp?customerId="+row["CustomerId"]+"'>Overall Report</a>";
 									}}
 			           ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
+										return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Assessments</a>";
+									}}
+			           ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
 										return "<a href='manageCustomerApplications.jsp?customerId="+row["CustomerId"]+"'>Manage Applications</a>";
 									}}
-				         ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
+				         ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
 										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png); background-repeat: no-repeat'></div>";
 									}}
-				         ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
+				         ,{ "targets": 6, "orderable": false, "render": function (data,type,row){
 										return "<div class='btn btn-image' title='Delete' onclick='return deleteItem(\""+row["CustomerId"]+"\");' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
 									}}
 			        ]
@@ -113,6 +116,7 @@
 		            <tr>
 		                <th align="left">Customer Name</th>
 		                <th align="left">Customer Details</th>
+		                <th align="left"></th>
 		                <th align="left"></th>
 		                <th align="left"></th>
 		                <th align="left">Edit</th>
