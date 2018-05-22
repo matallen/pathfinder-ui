@@ -22,8 +22,11 @@
 	<!--
 	-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-		
+
+
+
 	<body class="is-preload">
+
   	<%@include file="nav.jsp"%>
   	
 		<section id="banner2">
@@ -94,10 +97,21 @@
 							              return "<input type='checkbox' value='"+row['Id']+"'/>";
 													}},
 													{ "targets": 3, "orderable": true, "render": function (data,type,row){
-							              return row['Decision']==null?"":row['Decision'].rank;
+							                  var randomThing = JSON.parse(row['Decision']);
+													if (randomThing==null) {
+														return "";													
+													} else {
+							              return randomThing.rank;
+							              }
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
+							                  var randomThing = JSON.parse(row['WorkEffort']);
+													if (randomThing==null) {
+														return "";													
+													} else {
+							              return randomThing.rank;
+							              }
+//							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}}
 							        ]
 							    } );
@@ -158,7 +172,10 @@ $(document).ready(function(){
 						-->
 					  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 					  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-						
+				<div class="row">						
+
+						</div>
+<div id="mynetwork"></div>							
 					</div>
 					<div class="col-sm-8">
 						bubble chart
@@ -197,27 +214,24 @@ $(document).ready(function(){
 								});
 							</script>
 						</div>
+   					<div id="eventSpan"></div>
+					</div>
+
+				</div>
+
+				
+				<div class="row">
+
+					<div class="col-sm-12">
 
 					</div>
 				</div>
-				
 				<div class="row">
 					<div class="col-sm-12">
-						Bar dependency chart goes here?
-					</div>
+
 				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						Dependency chart goes here?
-					</div>
 				</div>
-				
-				<div class="row">
-					<div class="col-sm-12">
-						Recommendations go here?
-					</div>
-				</div>
-				
+								
 				<div class="highlights">
 				</div>
 			</div>
@@ -226,6 +240,10 @@ $(document).ready(function(){
 
 		
 	</body>
+	// Dependency chart stuff
+<script type="text/javascript" src="assets/js/vis.js"></script>
+<script type="text/javascript" src="assets/js/dependencyMap.js"></script>		
+
 </html>
 
 

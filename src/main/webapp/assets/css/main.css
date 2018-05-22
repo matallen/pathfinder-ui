@@ -14,6 +14,18 @@ body {
   -ms-overflow-style: scrollbar; 
   font-family: 'overpass'  
   }
+
+#mynetwork {
+      height: 400px;
+		font-family: overpass;        
+        }
+        
+#eventSpan {
+        float: left;
+        margin-top: 10px;
+		  font-family: overpass;        
+        }
+
   
 #toggleNodes {	
     position: absolute;
@@ -188,7 +200,7 @@ em, i {
   font-style: italic; }
 
 p {
-  margin: 0 0 2rem 0; }
+  margin: 0 0 1rem 0; }
 
 header.special {
   text-align: center;
