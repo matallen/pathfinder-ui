@@ -80,10 +80,10 @@
 			        ]
 			        ,"columnDefs": [
 				      	 { "targets": 2, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
+									return "<div class='btn btn-image' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png);  background-repeat: no-repeat'></div>";
 								}}
 			        	,{ "targets": 3, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
+									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
 								}}
 			        ]
 			    } );
