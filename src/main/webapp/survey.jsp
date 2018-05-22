@@ -30,6 +30,6 @@
     <div id="surveyResult"></div>
 
 		<script type="text/javascript" src="datatables-functions.js?v1"></script>
-    <script type="text/javascript" src="assets/js/application-survey.js?v5"></script>
+    <script type="text/javascript" src="assets/js/application-survey.js?v6"></script>
 	</body>
 </html>
