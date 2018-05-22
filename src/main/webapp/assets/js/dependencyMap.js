@@ -1,14 +1,3 @@
-
-//<div id="toggleNodes">		
-//<input type="button"  onclick="getRemoveColouredNodes('#FF0000');" value="Remove Red"></input>
-//<input type="button"  onclick="getRemoveColouredNodes('#FCC200');" value="Remove Amber"></input>
-//<input type="button"  onclick="getRemoveColouredNodes('#7BE141');" value="Remove Green"></input>
-//<input type="reset"  onclick="populateNodeArray();window.location.reload() "></input>
-//</div>
-//
-//<div id="eventSpan"></div>
-//<div id="mynetwork"></div>
-
     var nodes = "";    
     // create an array with nodes
     function populateNodeArray() {
@@ -58,7 +47,6 @@
         nodes.remove({id:10});
         nodes.remove({id:9});
         nodes.remove({id:8});
-//console.log(nodes);
     }
  
 
@@ -92,10 +80,10 @@
 //        document.getElementById('eventSpan').innerHTML = '<h2>oncontext (right click) event:</h2>' + JSON.stringify(params, null, 4);
 //    });
 
-
     network.on("showPopup", function (params) {
 //        document.getElementById('eventSpan').innerHTML = '<p>' + nodes.get(params)['label'] + '</p><p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
-        document.getElementById('eventSpan').innerHTML = '<p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
+//        document.getElementById('eventSpan').innerHTML = '<p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
+        document.getElementById('eventSpan').innerHTML = "<p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
 //        document.getElementById('eventSpan').innerHTML = '<h3>Effort Estimate: ' + nodes.get(params)['effort'] + "</h3><h4>" + nodes.get(params)['title'] + "</h4>" ;
         console.log(nodes.get(params)['effort']);
 //        document.getElementById('eventSpan').innerHTML = '<h2>Effort Estimate ' + this.getNodeAt(params.pointer.DOM);
