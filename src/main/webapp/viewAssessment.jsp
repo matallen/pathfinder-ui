@@ -83,7 +83,11 @@
 								var canvas = document.getElementById("pieChart");
 								var xhr = new XMLHttpRequest();
 //								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
-								xhr.open("GET", "http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+//								xhr.open("GET", "http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+//use this until the method is moved to server end
+								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+//should use this one once the method is moved to the server end
+//								xhr.open("GET", Utils.SERVER+"api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 								xhr.send();
 								xhr.onloadend = function () {
 									var data=JSON.parse(xhr.responseText);
@@ -197,7 +201,10 @@
 					<div class="col-sm-8">
 						
 						<div class="row">
-							
+
+<%
+if ("true".equalsIgnoreCase(request.getParameter("review"))){
+%>
 
 <p><h3>Architect Review</h3></p>
 <p>Please use this section to provide your assessment of the possible migration/modernisation plan and an effort estimation.</p>
@@ -299,16 +306,14 @@
 		}
 	</script>
 	
-	
-	 
-	
-	
 </form>
 <!--
 <a href="results.php?customer=<?php echo $_REQUEST['customer'] ?>"><button>Return to Results</button></a>
 -->
 							
-							
+<%
+}
+%>
 							
 						</div>
 						

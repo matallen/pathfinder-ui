@@ -142,7 +142,7 @@
 													}},
 													{ "targets": 2, "orderable": true, "render": function (data,type,row){
 														if (row["ReviewDate"]==null && row["Assessed"]==true){
-														  return "<a href='reviewAssessment.php?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img height='24px' src='images/review.png'></a>";
+														  return "<a href='viewAssessment.jsp?review=true&app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img height='24px' src='images/review.png'></a>";
 														}else if (row["ReviewDate"]==null){
 															return "No";
 														}else{
