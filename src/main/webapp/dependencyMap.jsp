@@ -58,16 +58,16 @@
     // create an array with nodes
     function populateNodeArray() {
     nodes = new vis.DataSet([
-        {id: 1, label: 'LandWork ERP System', title: 'Application description and other stuff for the Big App', color: '#FF0000', effort: "High"},
-        {id: 2, label: 'Oracle CRM', title: 'Web Application2 description and other stuff', color: "#7BE141", effort: "Low"},
-        {id: 3, label: 'Backend Database', title: 'Application3 description and other stuff', color: '#FF0000', effort: "High"},
-        {id: 4, label: 'Penny Pincher', title: 'Application4 description and other stuff', color: '#7BE141', effort: "Low"},
-        {id: 5, label: 'Customer Help CMS', title: 'Application5 description and other stuff', color: "#FCC200", effort: "Medium"},
-        {id: 6, label: 'Whinger', title: 'Application6 description and other stuff!', color: "#FCC200", effort: "Medium"},
-        {id: 7, label: 'Orphan Application', title: 'Orphan Application description and other stuff', color: '#7BE141', effort: "Low"},
-        {id: 8, label: 'Call Trace', title: 'Application8 description and other stuff', color: "#FCC200", effort: "Medium"},
-        {id: 9, label: 'Orange HRM', title: 'Application9 description and other stuff', color: '#7BE141', effort: "Low"},
-        {id: 10, label: 'Check-In API', title: 'Application10 description and other stuff', color: '#7BE141', effort: "Low"}
+        {id: 1, label: 'LandWork ERP System', title: 'Application description and other stuff for the Big App', color: '#FF0000', effort: "High", priority: "4"},
+        {id: 2, label: 'Oracle CRM', title: 'Web Application2 description and other stuff', color: "#7BE141", effort: "Low", priority: "5"},
+        {id: 3, label: 'Backend Database', title: 'Application3 description and other stuff', color: '#FF0000', effort: "High", priority: "9"},
+        {id: 4, label: 'Penny Pincher', title: 'Application4 description and other stuff', color: '#7BE141', effort: "Low", priority: "5"},
+        {id: 5, label: 'Customer Help CMS', title: 'Application5 description and other stuff', color: "#FCC200", effort: "Medium", priority: "2"},
+        {id: 6, label: 'Whinger', title: 'Application6 description and other stuff!', color: "#FCC200", effort: "Medium", priority: "4"},
+        {id: 7, label: 'Orphan Application', title: 'Orphan Application description and other stuff', color: '#7BE141', effort: "Low", priority: "1"},
+        {id: 8, label: 'Call Trace', title: 'Application8 description and other stuff', color: "#FCC200", effort: "Medium", priority: "3"},
+        {id: 9, label: 'Orange HRM', title: 'Application9 description and other stuff', color: '#7BE141', effort: "Low", priority: "6"},
+        {id: 10, label: 'Check-In API', title: 'Application10 description and other stuff', color: '#7BE141', effort: "Low", priority: "3"}
     ]);
     return nodes;
     }
@@ -151,7 +151,7 @@ console.log(nodes);
 
 
     network.on("showPopup", function (params) {
-        document.getElementById('eventSpan').innerHTML = '<h4>' + nodes.get(params)['label'] + '</h4><p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p>" ;
+        document.getElementById('eventSpan').innerHTML = '<h4>' + nodes.get(params)['label'] + '</h4><p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
 //        document.getElementById('eventSpan').innerHTML = '<h3>Effort Estimate: ' + nodes.get(params)['effort'] + "</h3><h4>" + nodes.get(params)['title'] + "</h4>" ;
         console.log(nodes.get(params)['effort']);
 //        document.getElementById('eventSpan').innerHTML = '<h2>Effort Estimate ' + this.getNodeAt(params.pointer.DOM);

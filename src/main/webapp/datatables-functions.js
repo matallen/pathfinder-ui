@@ -92,6 +92,7 @@ function httpGetObject(url, callback){
 }
 
 Utils = {
+//  SERVER: "http://localhost:8080", 
   SERVER: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com",
 	getParameterByName: function(name, url) {
 		  if (!url) url = window.location.href;
