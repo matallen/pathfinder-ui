@@ -106,9 +106,9 @@
 					<div class="col-sm-8">
 						<!-- #### DATATABLE ### -->
 						<script>
-							function deleteItem(id){
-							  delete(Utils.SERVER+"/api/pathfinder/notimplemented/"+id);
-							}
+							//function deleteItem(id){
+							//  delete(Utils.SERVER+"/api/pathfinder/notimplemented/"+id);
+							//}
 							$(document).ready(function() {
 							    $('#example').DataTable( {
 							        "ajax": {
@@ -149,10 +149,10 @@
 							              //return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							              return row['Decision']==null?"":row['Decision'].rank;
+							              return row['Decision']==null?"":row['Decision'];
 													}},
 													{ "targets": 5, "orderable": true, "render": function (data,type,row){
-							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
+							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}},
 							            { "targets": 7, "orderable": false, "render": function (data,type,row){
 							            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
