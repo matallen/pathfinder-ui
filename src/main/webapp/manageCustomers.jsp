@@ -10,8 +10,10 @@
   <link href="assets/css/breadcrumbs.css" rel="stylesheet" />
   
   <!-- #### DATATABLES DEPENDENCIES ### -->
-
+  <!-- Firefox doesnt support link imports yet
   <link rel="import" href="datatables-dependencies.jsp">
+  -->
+  <%@include file="datatables-dependencies.jsp"%>
 	
 	<body class="is-preload">
 		<%@include file="nav.jsp"%>
