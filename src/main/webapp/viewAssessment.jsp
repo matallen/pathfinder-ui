@@ -7,17 +7,14 @@
   <link href="assets/css/breadcrumbs.css" rel="stylesheet" />
 	
   <!-- #### DATATABLES DEPENDENCIES ### -->
-  <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css" rel="stylesheet">
-  <link href="assets/css/bootstrap-3.3.7.min.css" rel="stylesheet" />
-	<link href="assets/css/datatables-addendum.css" rel="stylesheet" />
-	<!--
-  <script src="assets/js/jquery-3.3.1.min.js"></script>
-	-->
-  <script src="assets/js/bootstrap-3.3.7.min.js"></script>
-  <script src="assets/js/jquery.dataTables-1.10.16.js"></script>
-  <script src="datatables-functions.js"></script>
-	<script src="datatables-plugins.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>	
+  <!-- Firefox doesnt support link imports yet
+  <link rel="import" href="datatables-dependencies.jsp">
+  -->
+  <%@include file="datatables-dependencies.jsp"%>
+	
+	<!-- #### CHARTS DEPENDENCIES ### -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+		
 	<body class="is-preload">
   	<%@include file="nav.jsp"%>
   	
@@ -45,11 +42,13 @@
 				var customerId=Utils.getParameterByName("customer");
 				var appId=Utils.getParameterByName("app");
 				var assessmentId=Utils.getParameterByName("assessment");
-
+				var beenReviewed=false;
+				
 				$(document).ready(function() {
 					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(application){
 						document.getElementById("breadcrumb2").innerHTML=application.Name;
 						//document.getElementById("applicationName").innerHTML=application.Name;
+						beenReviewed=application.Review!=null;
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
 					
@@ -59,11 +58,6 @@
 						document.getElementById("customerName").innerHTML=customer.CustomerName;
 						document.getElementById("breadcrumb1").innerHTML="<a href='results.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
 
-					});
-					console.log(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentProgress");
-					// ### Populate the progress bar
-					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentProgress", function(progress){
-					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
 
 				});
@@ -75,23 +69,56 @@
 					<div class="col-sm-4">
 						<!-- ### CHART GOES HERE -->
 						
-						Assessment Status
+						<h3>Assessment Status</h3>
 						<script>
+						  
+						  var dataTableColorCfg=new Object();
+							dataTableColorCfg["UNKNOWN"]="#808080";
+							dataTableColorCfg["RED"]="#cc0000";
+							dataTableColorCfg["AMBER"]="#ec7a08";
+							dataTableColorCfg["GREEN"]="#92d400";
 							$(document).ready(function() {
 								var canvas = document.getElementById("pieChart");
 								var xhr = new XMLHttpRequest();
-								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
+//								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
+								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 								xhr.send();
 								xhr.onloadend = function () {
 									var data=JSON.parse(xhr.responseText);
+									
+									var i;
+									var newdata={};
+									for (i=0;i<data.length;i++) { 
+										if (newdata[data[i]['rating']]==undefined) newdata[data[i]['rating']]=0;
+									  newdata[data[i]['rating']]=newdata[data[i]['rating']]+1;
+									}
+									//console.log("newdata="+JSON.stringify(newdata));
+									
+									var result={};
+									result.labels=[];
+									result.datasets=[];
+									result.datasets[0]={data:[],backgroundColor:[]}
+									
+									i=0
+									for(var key in newdata){
+									  result.labels[i]=key;
+									  result.datasets[0].data[i]=newdata[key];
+									  result.datasets[0].backgroundColor[i]=dataTableColorCfg[key];
+									  i=i+1;
+									}
+									//console.log(JSON.stringify(data));
+									
+									//data=result;
+									
+									// ### LOAD CHART DATA ###
 									var ctx = document.getElementById("pieChart").getContext("2d");
 									var myDoughnutChart = new Chart(ctx, {
 										type: 'doughnut',
-										data: data,
+										data: result,
 							    	options: {
 							        legend: {
 							            display: false,
-							            		}}
+		            		}}
 									});
 									
 									// OnClick driving the table of data
@@ -109,6 +136,37 @@
 							      }
 							    };
 							    
+							    //console.log("data="+data);
+							    
+							    // ### LOAD DATATABLE DATA ###
+									$('#example').DataTable( {
+//							        "ajax": {
+//							            //"url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
+////							            "url": '<%=request.getContextPath()%>/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
+////							            "dataSrc": "",
+//							            "data": data
+////							            "dataType": "json"
+//							        },
+							        "data": data,
+							        "scrollCollapse": true,
+							        "paging":         false,
+							        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
+							        "pageLength" : 10, // default page entries
+							        "searching" : true,
+							        //"order" : [[1,"desc"],[2,"desc"],[0,"asc"]],
+							        "columns": [
+							            { "data": "question" },
+							            { "data": "answer" },
+							            { "data": "rating" },
+							        ]
+							        ,"columnDefs": [
+							        		{ "targets": 2, "orderable": true, "render": function (data,type,row){
+							        		  return "<span style='color:"+dataTableColorCfg[row["rating"]]+"'>"+row['rating']+"</span>";
+													}}
+							        ]
+							    } );
+							    
+							    
 								}
 							});
 					    function resetResults(){
@@ -124,71 +182,112 @@
 									</a>
 								</div>
 								<canvas id="pieChart"></canvas>
+								<style>
+								#example_filter label{
+									display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
+								}
+								</style>
 							</center>
 						</div>
 						
-						<style>
-						#example_filter label{
-							display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
-						}
-						</style>
-					
+						
 					</div>
 					<div class="col-sm-8">
 						
-						<!-- ### DATATABLE GOES HERE -->
-						<script>
-							function deleteItem(id){
-							  delete(Utils.SERVER+"/api/pathfinder/notimplemented/"+id);
-							}
-							var colorCfg=new Object();
-							colorCfg["UNKNOWN"]="#808080";
-							colorCfg["RED"]="#FF0000";
-							colorCfg["AMBER"]="#FCC200";
-							colorCfg["GREEN"]="#006400";
+						<div class="row">
 							
-							$(document).ready(function() {
-							    $('#example').DataTable( {
-							        "ajax": {
-							            //"url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
-							            "url": '<%=request.getContextPath()%>/api/pathfinder/customers/'+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary",
-							            "dataSrc": "",
-							            "dataType": "json"
-							        },
-							        "scrollCollapse": true,
-							        "paging":         false,
-							        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
-							        "pageLength" : 10, // default page entries
-							        "searching" : true,
-							        //"order" : [[1,"desc"],[2,"desc"],[0,"asc"]],
-							        "columns": [
-							            { "data": "question" },
-							            { "data": "answer" },
-							            { "data": "rating" },
-							        ]
-							        ,"columnDefs": [
-							        		{ "targets": 2, "orderable": true, "render": function (data,type,row){
-							        		  return "<span style='color:"+colorCfg[row["rating"]]+"'>"+row['rating']+"</span>";
-													}}
-							        ]
-							    } );
-							} );
-						</script>
-				  	<div id="wrapper">
-					    <div id="buttonbar">
-					    </div>
-					    <div id="tableDiv">
-						    <table id="example" class="display" cellspacing="0" width="100%">
-					        <thead>
-				            <tr>
-			                <th align="left">Question</th>
-			                <th align="left">Answer</th>
-			                <th align="left">Rating</th>
-				            </tr>
-					        </thead>
-						    </table>
-						  </div>
-				  	</div>
+
+<p><h3>Architect Review</h3></p>
+<p>Please use this section to provide your assessment of the possible migration/modernisation plan and an effort estimation.</p>
+
+<form action="#" id="form" method="post">
+	<input type="hidden" name="reviewSubmitted" value="true" />
+	
+	<div class="row">
+		<div class="col-sm-3">
+			<h4>Proposed Action</h4>
+		</div>
+		<div class="col-sm-3">
+			<h4>Effort Estimate</h4>
+		</div>
+		<div class="col-sm-6">
+			<h4>Supporting Notes</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<select name="proposedAction" id="proposedAction">
+				<option value="REHOST">Re-host</option>
+				<option value="REPLATFORM">Re-platform</option>
+				<option value="REFACTOR">Refactor</option>
+				<option value="REPURCHASE">Repurchase</option>
+				<option value="RETIRE">Retire</option>
+				<option value="RETAIN">Retain</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<select name="effortEstimate" id="effortEstimate">
+				<option value="SMALL">Small</option>
+				<option value="MEDIUM">Medium</option>
+				<option value="LARGE">Large</option>
+				<option value="XLarge">Extra Large</option>
+			</select> 
+		</div>
+		<div class="col-sm-6">
+			<textarea name="supportingNotes" style="width:400px"></textarea>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-10">
+			<input type="button" onclick="postReview('form');" value="Submit Review">
+		</div>
+	</div>
+	<script>
+		function postReview(formId){
+	    var form=document.getElementById(formId);
+	    var data = {};
+	    for (var i = 0, ii = form.length; i < ii; ++i) {
+		    if (form[i].name) data[form[i].name]=form[i].value;
+		  }
+	    post(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/review", data);
+	    //window.location.href = "results.jsp?customerId="+customerId;
+		}
+	</script>
+	
+	
+	 
+	
+	
+</form>
+<!--
+<a href="results.php?customer=<?php echo $_REQUEST['customer'] ?>"><button>Return to Results</button></a>
+-->
+							
+							
+							
+						</div>
+						
+						<div class="row">
+							
+							<!-- ### DATATABLE GOES HERE -->
+					  	<div id="wrapper">
+						    <div id="buttonbar">
+						    </div>
+						    <div id="tableDiv">
+							    <table id="example" class="display" cellspacing="0" width="100%">
+						        <thead>
+					            <tr>
+				                <th align="left">Question</th>
+				                <th align="left">Answer</th>
+				                <th align="left">Rating</th>
+					            </tr>
+						        </thead>
+							    </table>
+							  </div>
+					  	</div>
+					  	
+						</div>
+						
 				  	
 					</div>
 				</div>

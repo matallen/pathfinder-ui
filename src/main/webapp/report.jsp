@@ -125,7 +125,7 @@
 <table>
     <tbody>
         <tr id="1">
-            <td><input onclick="alert('wtf is it!?');" type="checkbox" name="1"/></td>
+            <td><input onclick="alert('where is it!?');" type="checkbox" name="1"/></td>
             <td>Application 1</td>
         </tr>
         <tr id="2">
@@ -201,6 +201,11 @@ $(document).ready(function(){
 					</div>
 				</div>
 				
+				<div class="row">
+					<div class="col-sm-12">
+						Bar dependency chart goes here?
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-12">
 						Dependency chart goes here?

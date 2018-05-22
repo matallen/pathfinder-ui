@@ -91,13 +91,6 @@ public class Controller{
     //get the answers from the assessment
     //match the two as output to the databtable onscreen
     
-//    String raw=IOUtils.toString(new URL("http://localhost:8083/pathfinder-ui/assets/js/application-survey.js").openStream());
-//    
-//    // this is hacky, however once we drive the questions from the back-end this will change anyway
-//    int start=raw.indexOf("pages: [{")+7;
-//    int end=raw.indexOf("}],")+2;
-//    mjson.Json x=mjson.Json.read(raw.substring(start, end));
-    
     mjson.Json x=getSurvey();
     
     //MOCKED CODE, when the colors are put into the surveyjs source this can be removed

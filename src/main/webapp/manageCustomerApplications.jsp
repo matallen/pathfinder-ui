@@ -12,7 +12,10 @@
   <link href="assets/css/breadcrumbs.css" rel="stylesheet" />
   
   <!-- #### DATATABLES DEPENDENCIES ### -->
+  <!-- Firefox doesnt support link imports yet
   <link rel="import" href="datatables-dependencies.jsp">
+  -->
+  <%@include file="datatables-dependencies.jsp"%>
 
   <!-- #### DATATABLES ### -->
   
