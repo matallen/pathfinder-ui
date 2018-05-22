@@ -28,7 +28,6 @@ body {
 
   
 #toggleNodes {	
-    position: absolute;
     left: 0px;
     top: 0px;
     z-index: 10;
@@ -344,7 +343,6 @@ button,
   font-weight: 600;
   height: 3.25rem;
   line-height: 3.25rem;
-  padding: 0 1.75rem;
   text-align: center;
   text-decoration: none;
   white-space: nowrap; }

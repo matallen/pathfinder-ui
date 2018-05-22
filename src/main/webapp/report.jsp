@@ -175,6 +175,7 @@ $(document).ready(function(){
 				<div class="row">						
 
 						</div>
+						
 <div id="mynetwork"></div>							
 					</div>
 					<div class="col-sm-8">
@@ -214,7 +215,15 @@ $(document).ready(function(){
 								});
 							</script>
 						</div>
+						<div id="toggleNodes">		
+<input type="button"  onclick="getRemoveColouredNodes('#FF0000');" value="Remove Red"></input>
+<input type="button"  onclick="getRemoveColouredNodes('#FCC200');" value="Remove Amber"></input>
+<input type="button"  onclick="getRemoveColouredNodes('#7BE141');" value="Remove Green"></input>
+<input type="reset"  onclick="populateNodeArray();window.location.reload() "></input>
+</div>
+
    					<div id="eventSpan"></div>
+   					
 					</div>
 
 				</div>
