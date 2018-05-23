@@ -47,7 +47,7 @@
 				$(document).ready(function() {
 					httpGetObject(Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/"+appId, function(application){
 						document.getElementById("breadcrumb2").innerHTML=application.Name;
-						//document.getElementById("applicationName").innerHTML=application.Name;
+						document.getElementById("applicationName").innerHTML=application.Name;
 						beenReviewed=application.Review!=null;
 					  //console.log("app.count="+progress.Appcount+", assessed="+progress.Assessed+", reviewed="+progress.Reviewed);
 					});
@@ -56,7 +56,7 @@
 					httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId, function(customer){
 						// ### Populate the header with the Customer Name
 						document.getElementById("customerName").innerHTML=customer.CustomerName;
-						document.getElementById("breadcrumb1").innerHTML="<a href='results.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
+						document.getElementById("breadcrumb1").innerHTML="<a href='assessments.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
 
 					});
 					
@@ -71,14 +71,14 @@
 					<div class="col-sm-4">
 						<!-- ### CHART GOES HERE -->
 						
-						<h3>Assessment Status</h3>
+						<h2>Assessment for: <span id="applicationName"></span></h2>
 						<script>
 						  
-						  var dataTableColorCfg=new Object();
-							dataTableColorCfg["UNKNOWN"]="#808080";
-							dataTableColorCfg["RED"]="#cc0000";
-							dataTableColorCfg["AMBER"]="#ec7a08";
-							dataTableColorCfg["GREEN"]="#92d400";
+						  //var dataTableColorCfg=new Object();
+							//dataTableColorCfg["UNKNOWN"]="#808080";
+							//dataTableColorCfg["RED"]="#cc0000";
+							//dataTableColorCfg["AMBER"]="#ec7a08";
+							//dataTableColorCfg["GREEN"]="#92d400";
 							$(document).ready(function() {
 								var canvas = document.getElementById("pieChart");
 								var xhr = new XMLHttpRequest();
@@ -109,7 +109,7 @@
 									for(var key in newdata){
 									  result.labels[i]=key;
 									  result.datasets[0].data[i]=newdata[key];
-									  result.datasets[0].backgroundColor[i]=dataTableColorCfg[key];
+									  result.datasets[0].backgroundColor[i]=Utils.chartColors[key];
 									  i=i+1;
 									}
 									//console.log(JSON.stringify(data));
@@ -167,7 +167,7 @@
 							        ]
 							        ,"columnDefs": [
 							        		{ "targets": 2, "orderable": true, "render": function (data,type,row){
-							        		  return "<span style='color:"+dataTableColorCfg[row["rating"]]+"'>"+row['rating']+"</span>";
+							        		  return "<span style='color:"+Utils.chartColors[row["rating"]]+"'>"+row['rating']+"</span>";
 													}}
 							        ]
 							    } );
@@ -206,7 +206,7 @@
 if ("true".equalsIgnoreCase(request.getParameter("review"))){
 %>
 
-<p><h3>Architect Review</h3></p>
+<p><h2>Architect Review</h2></p>
 <p>Please use this section to provide your assessment of the possible migration/modernisation plan and an effort estimation.</p>
 
 <form action="#" id="form" method="post">
@@ -302,7 +302,7 @@ if ("true".equalsIgnoreCase(request.getParameter("review"))){
 		  
 		  console.log("POSTING: "+data);
 	    post(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/review", data);
-	    window.location.href = "results.jsp?customerId="+customerId;
+	    window.location.href = "assessments.jsp?customerId="+customerId;
 		}
 	</script>
 	

@@ -94,6 +94,12 @@ function httpGetObject(url, callback){
 Utils = {
 //  SERVER: "http://localhost:8080", 
   SERVER: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com",
+  chartColors: {
+  	"UNKNOWN": "#808080",
+		"RED": "#cc0000",
+		"AMBER": "#ec7a08",
+		"GREEN": "#92d400"
+  },
 	getParameterByName: function(name, url) {
 		  if (!url) url = window.location.href;
 		  name = name.replace(/[\[\]]/g, "\\$&");

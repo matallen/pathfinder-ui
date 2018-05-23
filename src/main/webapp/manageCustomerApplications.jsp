@@ -80,10 +80,10 @@
 			        ]
 			        ,"columnDefs": [
 				      	 { "targets": 2, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png)'></div>";
+									return "<div class='btn btn-image' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png); background-repeat: no-repeat'></div>";
 								}}
 			        	,{ "targets": 3, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png)'></div>";
+									return "<div class='btn btn-image' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png); background-repeat: no-repeat'></div>";
 								}}
 			        ]
 			    } );
@@ -91,7 +91,7 @@
 		</script>
     	<div id="wrapper">
 		    <div id="buttonbar">
-		        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
+	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;" class="btn" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
 		    </div>
 		    <div id="tableDiv">
 			    <table id="example" class="display" cellspacing="0" width="100%">
@@ -99,8 +99,8 @@
 			            <tr>
 			                <th align="left">Application Name</th>
 			                <th align="left">Application Description</th>
-			                <th align="left"></th>
-			                <th align="left"></th>
+			                <th align="left">Edit</th>
+			                <th align="left">Delete</th>
 			            </tr>
 			        </thead>
 			    </table>

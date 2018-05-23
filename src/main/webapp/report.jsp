@@ -15,7 +15,7 @@
 	-->
   <script src="assets/js/bootstrap-3.3.7.min.js"></script>
   <script src="assets/js/jquery.dataTables-1.10.16.js"></script>
-  <script src="datatables-functions.js"></script>
+  <script src="datatables-functions.js?v1"></script>
 	<script src="datatables-plugins.js"></script>
 	
 	<!-- for pie/line/bubble graphing -->
@@ -54,7 +54,7 @@
 					httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId, function(customer){
 						// ### Populate the header with the Customer Name
 						document.getElementById("customerName").innerHTML=customer.CustomerName;
-						document.getElementById("breadcrumb1").innerHTML="<a href='results.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
+						document.getElementById("breadcrumb1").innerHTML="<a href='assessments.jsp?customerId="+customer.CustomerId+"'>"+customer.CustomerName+"</a>";
 
 					});
 					
@@ -64,10 +64,12 @@
 				
 				<div class="row">
 					<div class="col-sm-4">
+					<!--
 						apps list in draggable checkboxed list
+					-->
 						
 						<h2>Applications</h2>
-
+						
 						<script>
 							$(document).ready(function() {
 							    $('#example').DataTable( {
@@ -91,13 +93,13 @@
 							        ]
 							        ,"columnDefs": [
 							        		{ "targets": 0, "orderable": true, "render": function (data,type,row){
-							              return "<input type='checkbox' value='"+row['Id']+"'/>";
+							              return "<input type='checkbox' value='"+row['Id']+"' style='background-color:red;width:10px'/>";
 													}},
 													{ "targets": 3, "orderable": true, "render": function (data,type,row){
-							              return row['Decision']==null?"":row['Decision'].rank;
+							              return row['Decision']==null?"":row['Decision'];
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							              return row['WorkEffort']==null?"":row['WorkEffort'].rank;
+							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}}
 							        ]
 							    } );
@@ -121,32 +123,10 @@
 						  </div>
 				  	</div>
 						
-<!--
-<table>
-    <tbody>
-        <tr id="1">
-            <td><input onclick="alert('where is it!?');" type="checkbox" name="1"/></td>
-            <td>Application 1</td>
-        </tr>
-        <tr id="2">
-            <td><input type="checkbox"/></td>
-            <td>Application 2</td>
-        </tr>
-        <tr id="3">
-            <td><input type="checkbox"/></td>
-            <td>Application 3</td>
-        </tr>
-        <tr id="4">
-            <td><input type="checkbox"/></td>
-            <td>Application 4</td>
-        </tr>
-    </tbody>
-</table>
--->
 <script>
 $(document).ready(function(){
     $("table tbody").sortable({
-         items: 'tr',
+        items: 'tr',
         stop : function(event, ui){
           //alert($(this).sortable('toArray'));
         }
@@ -161,40 +141,126 @@ $(document).ready(function(){
 						
 					</div>
 					<div class="col-sm-8">
+						<h2>Priority Analysis</h2>
+						<!--
 						bubble chart
-						x=importance
-						y=effort
-						z=judgement
-						color=action
-						transparency=certainty
+						x=biz priority
+						y=deps (inbound)
+						color?=action
+						size=effort
+						//transparency=certainty
+						-->
 						
+						<script>
+						  var decisionColors=[];
+						  decisionColors['REHOST']="#cc0000";
+						  decisionColors['']="#";
+						  decisionColors['']="#";
+						  decisionColors['']="#";
+						  decisionColors['']="#";
+						  decisionColors['']="#";
+						  decisionColors['NULL']="#808080";
+						  var sizing=[];
+						  sizing['0']=0;
+						  sizing['SMALL']=60;
+						  sizing['MEDIUM']=40;
+						  sizing['LARGE']=20;
+						  sizing['EXTRA LARGE']=10;
+						  
+							var data;
+							httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applicationAssessmentSummary", function(customer){
+								var label=[];
+								var innerData=[];
+								var backgroundColor=[];
+								data={};
+								//data={label:[],data:[],backgroundColor:[]};
+								
+								//console.log("customer="+JSON.stringify(customer));
+								var i;
+								for(i=0;i<customer.length;i++){
+									var app=customer[i];
+									
+									var name=app['Name'];
+									var businessPriority=app['BusinessPriority'];
+									var decision=app['Decision'];
+									var workEffort=app['WorkEffort'];
+									var inboundDependencies=5; // TODO: not implemented in the back end yet
+									
+									//TODO: this shouldnt be possible unless the assessment is incomplete
+									if (businessPriority==null) businessPriority=0;
+									if (workEffort==null) workEffort=0;
+									
+									label.push({name});
+									if (decision!=null){
+										backgroundColor.push(decisionColors[decision]);
+									}else{
+										backgroundColor.push(decisionColors.NULL);
+									}
+									// {"x":1,"y":8,"r":10}
+									console.log(workEffort);
+									innerData.push({"x":businessPriority,"y":inboundDependencies,"r":sizing[workEffort]})
+									
+								}
+								data['label']=label;
+								data['backgroundColor']=backgroundColor;
+								data['data']=innerData;
+								
+								console.log("data="+JSON.stringify(data));
+								
+								new Chart(document.getElementById("chartjs-6"),{
+									"type":"bubble",
+									"data": {"datasets":[
+										data
+									]},
+									options:{
+										aspectRatio: 1,
+			legend: false,
+			tooltips: false,
+									}
+								});
+							});
+							
+						</script>
 						
 						<div class="chartjs-wrapper">
 							<canvas id="chartjs-6" class="chartjs" width="undefined" height="undefined"></canvas>
 							<script>
-								new Chart(document.getElementById("chartjs-6"),{
-									"type":"bubble",
-									"data":{
-										"datasets":[{
-											"label":[
-												"App1"
-												,"App2"
-												,"App3"
-												],
-											"data":[
-												{"x":20,"y":30,"r":15}
-												,{"x":40,"y":10,"r":10}
-												,{"x":32,"y":17,"r":35}
-											],
-											"backgroundColor":[
-												"rgb(126, 210, 132)"
-												,"rgb(255, 34, 132)"
-												,"rgb(12, 99, 12)"
-											]
-										}]
-									}
-									//,options: options
-								});
+//								new Chart(document.getElementById("chartjs-6"),{
+//									"type":"bubble",
+//									"data": {"datasets":[
+//data
+//]}
+//
+////									{
+////										"datasets":[{
+////											"label":[
+////												 "App1"
+////												,"App2"
+////												,"App3"
+////												],
+////											"data":[
+////												 {"x":1,"y":8,"r":10}
+////												,{"x":8,"y":0,"r":30}
+////												,{"x":4,"y":2,"r":20}
+////											],
+////											"backgroundColor":[
+////												Utils.chartColors.RED,
+////												Utils.chartColors.AMBER,
+////												Utils.chartColors.GREEN,
+////											]
+////										}]
+////									}
+//									,options: {
+//										scales: {
+//											xAxes: [{
+//				                ticks: {
+//								          "ticks.min": "0",
+//								          "ticks.max": "10"
+//								        }
+//								    	}]
+//										}
+//									}
+//								});
 							</script>
 						</div>
 
@@ -203,7 +269,68 @@ $(document).ready(function(){
 				
 				<div class="row">
 					<div class="col-sm-12">
-						Bar dependency chart goes here?
+						
+						
+<div style="width: 75%">
+		<canvas id="canvas"></canvas>
+	</div>
+	<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+	<script>
+		
+		var barChartData = {
+			labels: ['',''],
+			datasets: [{
+				label: 'App 1',
+				backgroundColor: Utils.chartColors.RED,
+				data: [
+					10,20
+				]
+			}, {
+				label: 'App 2',
+				backgroundColor: Utils.chartColors.GREEN,
+				data: [
+					30,0
+				]
+			}, {
+				label: 'App 3',
+				backgroundColor: Utils.chartColors.AMBER,
+				data: [
+					20,0
+				]
+			}]
+
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type: 'horizontalBar',
+				data: barChartData,
+				options: {
+					title: {
+						display: true,
+						text: 'Stacked Bar Dependency Graph'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		};
+
+	</script>
+						
+						
+						
 					</div>
 				</div>
 				<div class="row">

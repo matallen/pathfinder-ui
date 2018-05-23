@@ -17,10 +17,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.bson.Document;
+import org.bson.codecs.BsonTypeClassMap;
+import org.bson.codecs.DocumentCodec;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.type.TypeReference;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
@@ -49,34 +51,40 @@ public class Controller{
   
   
   public static void main(String[] asd) throws Exception{
-    System.out.println(new Controller().viewAssessmentSummary("56f3529a-ed8f-4b07-a4f9-47fa3072d843", "44f51762-7f25-4694-bf69-e31432b6e501", "2d0f1f7f-6819-4439-be69-e114dd8c257b").getEntity());
-//    new Controller().getApps();
+//    System.out.println(new Controller().viewAssessmentSummary("56f3529a-ed8f-4b07-a4f9-47fa3072d843", "44f51762-7f25-4694-bf69-e31432b6e501", "2d0f1f7f-6819-4439-be69-e114dd8c257b").getEntity());
+    new Controller().getApps();
   }
   public Response getApps(){
     MongoCredential credential = MongoCredential.createCredential("userS1K", "pathfinder", "JBf2ibxFbqYAmAv0".toCharArray());
     MongoClient c = new MongoClient(new ServerAddress("localhost", 9191), Arrays.asList(credential));
     MongoDatabase db = c.getDatabase("pathfinder");
     
-    MongoCollection<Document> customers=db.getCollection("customer");
-    for(Document d:customers.find()){
-      System.out.println(d.toJson());
-//      Class.forName(className)
-      try{
-        Object x=Json.newObjectMapper(true).readValue(d.toJson(), Class.forName(d.getString("_class")));
-        System.out.println("X = "+x);
-      }catch (Exception e){
-        e.printStackTrace();
-      }
-//      d.get("_class");
+    CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry());
+    final DocumentCodec codec = new DocumentCodec(codecRegistry, new BsonTypeClassMap());
+
+    for (String name : db.listCollectionNames()) {
+      System.out.println("CollectionName: "+name);
     }
+    for(Document d:db.getCollection("assessments").find()){
+      System.out.println(d.toJson(codec));
+    }
+    
+//    for(Document d:db.getCollection("customer").find()){
+//      System.out.println(d.toJson(codec));
+////      Class.forName(className)
+////      try{
+////        Object x=Json.newObjectMapper(true).readValue(d.toJson(codec), Class.forName(d.getString("_class")));
+////        System.out.println("X = "+x);
+////      }catch (Exception e){
+////        e.printStackTrace();
+////      }
+////      d.get("_class");
+//    }
     
 //    String mongoURI=String.format("mongodb://%s:%s@%s:%s/%s", "userS1K","JBf2ibxFbqYAmAv0","localhost","9191","pathfinder");
 //    MongoClient c=new MongoClient(mongoURI);
 //    MongoDatabase db=c.getDatabase("pathfinder");
     
-    for (String name : db.listCollectionNames()) {
-      System.out.println("CollectionName: "+name);
-    }
     c.close();
     return null;
   }

@@ -36,7 +36,7 @@
   	<div id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li><a href="manageCustomers.jsp">Customers</a></li>
-				<li><span id="breadcrumb"></span> Assessment Results</li>
+				<li><span id="breadcrumb"></span> Assessments</li>
 			</ul>
 		</div>
 		
@@ -88,7 +88,6 @@
 						<div id="jqmeter-assessed"></div>
 						Reviewed
 						<div id="jqmeter-reviewed"></div>
-						<div id="allDone"></div>
 						<style>
 						.therm{height:30px;border-radius:5px;}
 						.outer-therm{margin:20px 0;}
@@ -97,18 +96,17 @@
 						.vertical.outer-therm{position:relative;}
 						.vertical.inner-therm{position:absolute;bottom:0;}
 						</style>
-						
+						<div id="allDone"></div>
+						<a href="report.jsp?customerId=<%=request.getParameter("customerId")%>"><button>Report</button></a>
 						
 						
 						<!-- ### Pie Chart Canvas -->
 						<div id="piechartAss" style="width: 500px; height: 500px; float: left;"></div>
 					</div>
 					<div class="col-sm-8">
+						<h2>Assessments</h2>
 						<!-- #### DATATABLE ### -->
 						<script>
-							//function deleteItem(id){
-							//  delete(Utils.SERVER+"/api/pathfinder/notimplemented/"+id);
-							//}
 							$(document).ready(function() {
 							    $('#example').DataTable( {
 							        "ajax": {

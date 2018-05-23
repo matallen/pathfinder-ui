@@ -78,7 +78,7 @@
 			            { "data": "CustomerName" },
 			            { "data": "CustomerDescription" },
 			            { "data": "CustomerId" },
-			            { "data": "CustomerId" },
+			            { "data": "CustomerPercentageComplete" },
 			            { "data": "CustomerId" },
 			            { "data": "CustomerId" },
 				        ]
@@ -87,19 +87,21 @@
 			              return "<a href='#' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'>"+row["CustomerName"]+"</a>";
 									}}
 								 ,{ "targets": 2, "orderable": false, "render": function (data,type,row){
-										return "<a href='report.jsp?customerId="+row["CustomerId"]+"'>Overall Report</a>";
+										return "<a href='report.jsp?customerId="+row["CustomerId"]+"'>Report</a>";
 									}}
-			           ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
-										return "<a href='results.jsp?customerId="+row["CustomerId"]+"'>View Assessments</a>";
+								 ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
+								 		var percentComplete=row['CustomerPercentageComplete'];
+								 		var link="<a href='assessments.jsp?customerId="+row["CustomerId"]+"'>Assessments ("+percentComplete+"%)</a>";
+										return "<div class='progress'><div class='progress-bar-success' role='progressbar' aria-valuenow='"+percentComplete+"' aria-valuemin='0' aria-valuemax='100' style='width:"+percentComplete+"%'><center>"+link+"</center></div></div>";
 									}}
 			           ,{ "targets": 4, "orderable": false, "render": function (data,type,row){
 										return "<a href='manageCustomerApplications.jsp?customerId="+row["CustomerId"]+"'>Manage Applications</a>";
 									}}
 				         ,{ "targets": 5, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Wrench-32.png); background-repeat: no-repeat'></div>";
+										return "<div class='btn-image btn btn-edit' title='Edit' onclick='load(\""+row["CustomerId"]+"\");' data-toggle='modal' data-target='#exampleModal'></div>";
 									}}
 				         ,{ "targets": 6, "orderable": false, "render": function (data,type,row){
-										return "<div class='btn btn-image' title='Delete' onclick='return deleteItem(\""+row["CustomerId"]+"\");' style='width:32px;height:32px;background-image: url(https://cdn2.iconfinder.com/data/icons/web/512/Trash_Can-32.png);  background-repeat: no-repeat'></div>";
+										return "<div class='btn-image btn btn-delete' title='Delete' onclick='return deleteItem(\""+row["CustomerId"]+"\");'></div>";
 									}}
 			        ]
 			    } );
@@ -107,8 +109,7 @@
 		</script>
   	<div id="wrapper">
 	    <div id="buttonbar">
-	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
-	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;"   class="btn btn-primary" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new" disabled>Export</button>
+	        <button style="position:relative;height:30px;width:75px;left:0px;top:0px;" class="btn" name="New"    onclick="editFormReset();" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@new">New</button>
 	    </div>
 	    <div id="tableDiv">
 		    <table id="example" class="display" cellspacing="0" width="100%">
@@ -121,7 +122,6 @@
 		                <th align="left"></th>
 		                <th align="left">Edit</th>
 		                <th align="left">Delete</th>
-
 		            </tr>
 		        </thead>
 		    </table>
