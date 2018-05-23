@@ -97,21 +97,11 @@
 							              return "<input type='checkbox' value='"+row['Id']+"'/>";
 													}},
 													{ "targets": 3, "orderable": true, "render": function (data,type,row){
-							                  var randomThing = JSON.parse(row['Decision']);
-													if (randomThing==null) {
-														return "";													
-													} else {
-							              return randomThing.rank;
-							              }
+ 							              return row['Decision']==null?"":row['Decision']; 
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							                  var randomThing = JSON.parse(row['WorkEffort']);
-													if (randomThing==null) {
-														return "";													
-													} else {
-							              return randomThing.rank;
-							              }
-//							              return row['WorkEffort']==null?"":row['WorkEffort'];
+							                							              return row['Decision']==null?"":row['Decision']; 
+							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}}
 							        ]
 							    } );
