@@ -97,7 +97,7 @@ public class Controller{
     
     //parse the application-survey.js file into a json object structure
     //get the answers from the assessment
-    //match the two as output to the databtable onscreen
+    //match the two as output to the datatable onscreen
     
     mjson.Json x=getSurvey();
     
@@ -128,7 +128,7 @@ public class Controller{
           
           result.add(new ApplicationAssessmentSummary(q.at("title").asString(), answerText, answerRating));
         }else if (q.at("type").asString().equals("rating")){
-          
+          // leave this out since it's things like "Select the app..."
         }
       }
     }
@@ -139,7 +139,7 @@ public class Controller{
 //  private mjson.Json tmpSurveyCache=null;
   private mjson.Json getSurvey() throws JsonGenerationException, JsonMappingException, IOException{
 //    if (tmpSurveyCache==null){
-      String raw=IOUtils.toString(new URL("http://localhost:8083/pathfinder-ui/assets/js/application-survey.js").openStream());
+      String raw=IOUtils.toString(new URL("http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/pathfinder-ui/assets/js/application-survey.js").openStream());
       int start=raw.indexOf("pages: [{")+7;
       int end=raw.indexOf("}],")+2;
       String x=raw.substring(start, end);
