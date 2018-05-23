@@ -148,24 +148,12 @@
 														}else{
 															return "Yes";
 														}
-							              //return "<span class='"+(row["ReviewDate"]==null?"'>No":"'>Yes")+"</span>";
 													}},
 													{ "targets": 4, "orderable": true, "render": function (data,type,row){
-							                  var randomThing = JSON.parse(row['Decision']);
-													if (randomThing==null) {
-														return "";													
-													} else {
-							              return randomThing.rank;
-							              }
+ 							              return row['Decision']==null?"":row['Decision']; 
 													}},
 													{ "targets": 5, "orderable": true, "render": function (data,type,row){
-							                  var randomThing = JSON.parse(row['WorkEffort']);
-													if (randomThing==null) {
-														return "";													
-													} else {
-							              return randomThing.rank;
-							              }
-//							              return row['WorkEffort']==null?"":row['WorkEffort'];
+							              return row['WorkEffort']==null?"":row['WorkEffort'];
 													}},
 								            { "targets": 7, "orderable": false, "render": function (data,type,row){
 							            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
