@@ -6,6 +6,15 @@
 -->
 <html>
   <%@include file="head.jsp"%>
+  
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+		  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+					  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
 	<body class="is-preload">
 
 		<!-- Header -->
@@ -17,7 +26,6 @@
 			</header>
 
     <%@include file="nav.jsp"%>
-
 
 		<!-- Banner -->
 			<section id="banner">
@@ -75,12 +83,7 @@
 				</div>
 			</section>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+
 
 	</body>
 </html>

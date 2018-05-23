@@ -22,8 +22,11 @@
 	<!--
 	-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-		
+
+
+
 	<body class="is-preload">
+
   	<%@include file="nav.jsp"%>
   	
 		<section id="banner2">
@@ -138,7 +141,11 @@ $(document).ready(function(){
 						-->
 					  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 					  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+				<div class="row">						
+
+						</div>
 						
+<div id="mynetwork"></div>							
 					</div>
 					<div class="col-sm-8">
 						<h2>Priority Analysis</h2>
@@ -263,13 +270,23 @@ $(document).ready(function(){
 //								});
 							</script>
 						</div>
+						<div id="toggleNodes">		
+<input type="button"  onclick="getRemoveColouredNodes('#FF0000');" value="Remove Red"></input>
+<input type="button"  onclick="getRemoveColouredNodes('#FCC200');" value="Remove Amber"></input>
+<input type="button"  onclick="getRemoveColouredNodes('#7BE141');" value="Remove Green"></input>
+<input type="reset"  onclick="populateNodeArray();window.location.reload() "></input>
+</div>
 
+   					<div id="eventSpan"></div>
+   					
 					</div>
+
 				</div>
+
 				
 				<div class="row">
+
 					<div class="col-sm-12">
-						
 						
 <div style="width: 75%">
 		<canvas id="canvas"></canvas>
@@ -330,21 +347,14 @@ $(document).ready(function(){
 	</script>
 						
 						
-						
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
-						Dependency chart goes here?
-					</div>
+
 				</div>
-				
-				<div class="row">
-					<div class="col-sm-12">
-						Recommendations go here?
-					</div>
 				</div>
-				
+								
 				<div class="highlights">
 				</div>
 			</div>
@@ -353,6 +363,10 @@ $(document).ready(function(){
 
 		
 	</body>
+	// Dependency chart stuff
+<script type="text/javascript" src="assets/js/vis.js"></script>
+<script type="text/javascript" src="assets/js/dependencyMap.js"></script>		
+
 </html>
 
 
