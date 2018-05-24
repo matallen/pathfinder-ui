@@ -18,13 +18,19 @@ case "XLARGE":
 return nodeColor;
 }
 
+function getNodeSize(BusinessPriority) {
+var nodeSize = 1 + BusinessPriority;
+return nodeSize;
+}
+
 var appUuids=[];
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
    	httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applicationAssessmentSummary", function(applications){
 var i;
+//console.log(applications);
 for(i=0;i<applications.length;i++){
- nodes.add({id:applications[i].Id, label: applications[i].Name, title:applications[i].Name, effort: applications[i].WorkEffort, color: getEffortColor(applications[i].WorkEffort)});
+ nodes.add({id:applications[i].Id, label: applications[i].Name, title:applications[i].Name, effort: applications[i].WorkEffort, color: getEffortColor(applications[i].WorkEffort), value: getNodeSize(applications[i].BusinessPriority) });
 }   	
 
    	httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/dependencyTree", function(deps){
@@ -138,7 +144,7 @@ console.log(nodes);
     network.on("showPopup", function (params) {
 //        document.getElementById('eventSpan').innerHTML = '<p>' + nodes.get(params)['label'] + '</p><p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
 //        document.getElementById('eventSpan').innerHTML = '<p>Effort Estimate: ' + nodes.get(params)['effort'] + "</p><p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
-        document.getElementById('eventSpan').innerHTML = "<p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
+//        document.getElementById('eventSpan').innerHTML = "<p>" + nodes.get(params)['title'] + "</p><p>Business Priority: " + nodes.get(params)['priority'] + "</p>";
 //        document.getElementById('eventSpan').innerHTML = '<h3>Effort Estimate: ' + nodes.get(params)['effort'] + "</h3><h4>" + nodes.get(params)['title'] + "</h4>" ;
         console.log(nodes.get(params)['effort']);
 //        document.getElementById('eventSpan').innerHTML = '<h2>Effort Estimate ' + this.getNodeAt(params.pointer.DOM);
