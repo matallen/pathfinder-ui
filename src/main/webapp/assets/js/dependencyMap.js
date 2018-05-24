@@ -23,6 +23,12 @@ var nodeSize = 1 + BusinessPriority;
 return nodeSize;
 }
 
+function getRandomNodeSize(BusinessPriority) {
+var nodeSize = 1 + Math.floor(Math.random() * 5) + 1  ;
+return nodeSize;
+}
+
+
 var appUuids=[];
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
@@ -30,7 +36,7 @@ var edges = new vis.DataSet([]);
 var i;
 //console.log(applications);
 for(i=0;i<applications.length;i++){
- nodes.add({id:applications[i].Id, label: applications[i].Name, title:applications[i].Name, effort: applications[i].WorkEffort, color: getEffortColor(applications[i].WorkEffort), value: getNodeSize(applications[i].BusinessPriority) });
+ nodes.add({id:applications[i].Id, label: applications[i].Name, title:applications[i].Name, effort: applications[i].WorkEffort, color: getEffortColor(applications[i].WorkEffort) });
 }   	
 
    	httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/dependencyTree", function(deps){
