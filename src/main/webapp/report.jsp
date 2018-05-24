@@ -154,6 +154,7 @@ $(document).ready(function(){
 					</div>
 					<div class="col-sm-8">
 						<h2>Priority Analysis</h2>
+						x=business priority, y=# of dependencies, size=effort, color=Action (REHOST=red, )
 						<!--
 						bubble chart
 						x=biz priority
@@ -165,13 +166,14 @@ $(document).ready(function(){
 						
 						<script>
 						  var decisionColors=[];
-						  decisionColors['REHOST']="#cc0000";
-						  decisionColors['']="#";
-						  decisionColors['']="#";
-						  decisionColors['']="#";
-						  decisionColors['']="#";
-						  decisionColors['']="#";
-						  decisionColors['NULL']="#808080";
+						  // colors got from https://brand.redhat.com/elements/color/
+						  decisionColors['REHOST']    ="#cc0000"; //red
+						  decisionColors['REFACTOR']  ="#004153"; //dark blue
+						  decisionColors['REPLATFORM']="#A3DBE8"; //light blue 
+						  decisionColors['REPURCHASE']="#3B0083"; //purple
+						  decisionColors['RETAIN']    ="#92d400"; //green
+						  decisionColors['RETIRE']    ="#f0ab00"; //amber
+						  decisionColors['NULL']      ="#808080"; //grey
 						  var sizing=[];
 						  sizing['0']=0;
 						  sizing['SMALL']=60;
@@ -196,7 +198,8 @@ $(document).ready(function(){
 									var businessPriority=app['BusinessPriority'];
 									var decision=app['Decision'];
 									var workEffort=app['WorkEffort'];
-									var inboundDependencies=5; // TODO: not implemented in the back end yet
+									//var inboundDependencies=5; // TODO: not implemented in the back end yet
+									var inboundDependencies=Math.floor(Math.random() * 10) + 0;
 									
 									//TODO: this shouldnt be possible unless the assessment is incomplete
 									if (businessPriority==null) businessPriority=0;
