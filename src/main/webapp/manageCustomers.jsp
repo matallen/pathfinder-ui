@@ -91,7 +91,7 @@
 									}}
 								 ,{ "targets": 3, "orderable": false, "render": function (data,type,row){
 								 		var percentComplete=row['CustomerPercentageComplete'];
-								 		var link="<a href='assessments.jsp?customerId="+row["CustomerId"]+"'>Assessments ("+percentComplete+"%)</a>";
+								 		var link="<a href='assessments.jsp?customerId="+row["CustomerId"]+"'>Assessments&nbsp;("+percentComplete+"%)</a>";
 										return "<div class='progress'><div class='progress-bar-success' role='progressbar' aria-valuenow='"+percentComplete+"' aria-valuemin='0' aria-valuemax='100' style='width:"+percentComplete+"%'><center>"+link+"</center></div></div>";
 									}}
 			           ,{ "targets": 4, "orderable": false, "render": function (data,type,row){

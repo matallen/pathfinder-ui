@@ -35,8 +35,8 @@ var json = {
                 "title": "Select the Customer...",
                 "isRequired": true,
                 "choicesByUrl": {
-                      //"url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
-                      "url": "http://localhost:8080/api/pathfinder/customers/",
+                      "url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/",
+                      //"url": "http://localhost:8080/api/pathfinder/customers/",
                       "valueName": "CustomerId",
                       "titleName": "CustomerName"
                 }
