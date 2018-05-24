@@ -49,6 +49,16 @@ public class Controller{
     public String getRating(){return rating;}
   }
   
+  class dependencyTree{
+    String from;
+    String to;
+    public dependencyTree(String f, String t){
+      this.from=f;
+      this.to=t;
+    }
+    public String getQuestion(){return from;}
+    public String getAnswer(){return to;}
+  }  
   
   public static void main(String[] asd) throws Exception{
 //    System.out.println(new Controller().viewAssessmentSummary("56f3529a-ed8f-4b07-a4f9-47fa3072d843", "44f51762-7f25-4694-bf69-e31432b6e501", "2d0f1f7f-6819-4439-be69-e114dd8c257b").getEntity());
