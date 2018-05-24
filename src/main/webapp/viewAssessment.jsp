@@ -69,22 +69,28 @@ var defaultRadiusMyChart;
 var addRadiusMargin = -10;
 var currentSelectedPieceLabel = "";
 
-function explodePieceOnSelect(myChart) {
+function filterDatatable(myChart){
+	// ### Filters the datatable based on the pie chart selection
+  var activePoints=myChart.getElementsAtEvent(event);
+  if (activePoints[0]) {
+    var chartData=activePoints[0]['_chart'].config.data;
+    var idx=activePoints[0]['_index'];
+		
+    var label=chartData.labels[idx];
+    var value=chartData.datasets[0].data[idx];
+		
+    var table=$('#example').DataTable();
+    table.columns(2).search(label).draw();
+  }
+}
+function resetDatatable(){
+	var table=$('#example').DataTable();
+  table.columns(2).search("").draw();
+}
+
+function onClickHandlers(myChart) {
 	var defaultRadiusMyChart = myChart.outerRadius;
 	$('#pieChart').on('click', function (event) {
-	
-		// ### Filters the datatable based on the pie chart selection
-    var activePoints=myChart.getElementsAtEvent(event);
-    if (activePoints[0]) {
-      var chartData=activePoints[0]['_chart'].config.data;
-      var idx=activePoints[0]['_index'];
-			
-      var label=chartData.labels[idx];
-      var value=chartData.datasets[0].data[idx];
-			
-      var table=$('#example').DataTable();
-      table.columns(2).search(label).draw();
-    }
 		
 		// ### Explode segment					      
     var activePoints = myChart.getElementsAtEvent(event);
@@ -100,6 +106,8 @@ function explodePieceOnSelect(myChart) {
         // no piece selected yet, save piece label
         currentSelectedPieceLabel = clickedLabel.toUpperCase();
 
+				filterDatatable(myChart);
+
         // clear whole pie
         myChart.outerRadius = defaultRadiusMyChart;
         myChart.update();
@@ -112,6 +120,8 @@ function explodePieceOnSelect(myChart) {
           // already selected piece clicked, clear the chart
           currentSelectedPieceLabel = "";
 
+					resetDatatable();
+
           // clear whole pie
           myChart.outerRadius = defaultRadiusMyChart;
           myChart.update();
@@ -122,6 +132,8 @@ function explodePieceOnSelect(myChart) {
         else {
           // other piece clicked
           currentSelectedPieceLabel = clickedLabel.toUpperCase();
+
+					filterDatatable(myChart);
 
           // clear whole pie
           myChart.outerRadius = defaultRadiusMyChart;
@@ -192,6 +204,11 @@ function explodePieceOnSelect(myChart) {
 										type: 'doughnut',
 										data: result,
 							    	options: {
+								    	hover: {
+									      onHover: function(e, el) {
+									         $("#pieChart").css("cursor", e[0] ? "pointer" : "default");
+									      }
+									   	},
 							        legend: {
 						            display: false,
 		            		}}
@@ -201,7 +218,7 @@ function explodePieceOnSelect(myChart) {
 									//ctx.canvas.height=400;
 									//var defaultRadiusMyChart = myDoughnutChart.outerRadius;
 
-    							explodePieceOnSelect(myDoughnutChart);  
+    							onClickHandlers(myDoughnutChart);  
 									
 									// OnClick driving the table of data
 									//canvas.onclick=function(evt) {
@@ -251,26 +268,13 @@ function explodePieceOnSelect(myChart) {
 							    
 								}
 							});
-					    function resetResults(){
-					    	var table=$('#example').DataTable();
-					      table.columns(2).search("").draw();
-					    }
 						</script>
-						<div>
-							<center>
-								<div style="position:relative;left:4px;top:294px;width:200px;">
-									<a href="#">
-										<img onclick="resetResults(); return false;" style="width:100px;" alt="Reset" src="images/reboot.jpg"/>
-									</a>
-								</div>
-								<canvas id="pieChart"></canvas>
-								<style>
-								#example_filter label{
-									display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
-								}
-								</style>
-							</center>
-						</div>
+						<canvas id="pieChart"></canvas>
+						<style>
+						#example_filter label{
+							display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
+						}
+						</style>
 						
 						
 					</div>
