@@ -20,6 +20,16 @@ function send(action, uri, data){
 function post(uri, data){
   return send("POST", uri, data);
 }
+function postWait(url, data, callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify(data));
+	xhr.onloadend = function () {
+	  callback(xhr.responseText);
+	};
+}
+
 function httpDelete(uri, data){
   return send("DELETE", uri, data);
 }

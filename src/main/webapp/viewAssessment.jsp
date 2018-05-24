@@ -386,8 +386,11 @@ if ("true".equalsIgnoreCase(request.getParameter("review"))){
 		  }
 		  
 		  console.log("POSTING: "+data);
-	    post(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/review", data);
-	    window.location.href = "assessments.jsp?customerId="+customerId;
+	    postWait(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/review", data, new function(response){
+		    // wait for the post response before redirecting or else the post will be cancelled
+		    console.log("after post: response= "+response);
+		    //window.location.href = "assessments.jsp?customerId="+customerId;
+	    });
 		}
 	</script>
 	
