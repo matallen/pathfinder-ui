@@ -60,11 +60,93 @@
 
 					});
 					
-					document.getElementById("AssessmentId").value=assessmentId;
-
 				});
 				
 				</script>
+
+<script>
+var defaultRadiusMyChart;
+var addRadiusMargin = -10;
+var currentSelectedPieceLabel = "";
+
+function filterDatatable(myChart){
+	// ### Filters the datatable based on the pie chart selection
+  var activePoints=myChart.getElementsAtEvent(event);
+  if (activePoints[0]) {
+    var chartData=activePoints[0]['_chart'].config.data;
+    var idx=activePoints[0]['_index'];
+		
+    var label=chartData.labels[idx];
+    var value=chartData.datasets[0].data[idx];
+		
+    var table=$('#example').DataTable();
+    table.columns(2).search(label).draw();
+  }
+}
+function resetDatatable(){
+	var table=$('#example').DataTable();
+  table.columns(2).search("").draw();
+}
+
+function onClickHandlers(myChart) {
+	var defaultRadiusMyChart = myChart.outerRadius;
+	$('#pieChart').on('click', function (event) {
+		
+		// ### Explode segment					      
+    var activePoints = myChart.getElementsAtEvent(event);
+    
+    if (activePoints.length > 0) {    	    
+      //get the internal index of slice in pie chart
+      var clickedElementindex = activePoints[0]["_index"];
+
+      //get specific label by index
+      var clickedLabel = myChart.data.labels[clickedElementindex];
+
+      if (currentSelectedPieceLabel.toUpperCase() == "") {
+        // no piece selected yet, save piece label
+        currentSelectedPieceLabel = clickedLabel.toUpperCase();
+
+				filterDatatable(myChart);
+
+        // clear whole pie
+        myChart.outerRadius = defaultRadiusMyChart;
+        myChart.update();
+
+        // update selected pie
+        activePoints[0]["_model"].outerRadius = defaultRadiusMyChart + addRadiusMargin;
+      }
+      else {
+        if (clickedLabel.toUpperCase() == currentSelectedPieceLabel.toUpperCase()) {
+          // already selected piece clicked, clear the chart
+          currentSelectedPieceLabel = "";
+
+					resetDatatable();
+
+          // clear whole pie
+          myChart.outerRadius = defaultRadiusMyChart;
+          myChart.update();
+
+          // update selected pie
+          activePoints[0]["_model"].outerRadius = defaultRadiusMyChart;
+        }
+        else {
+          // other piece clicked
+          currentSelectedPieceLabel = clickedLabel.toUpperCase();
+
+					filterDatatable(myChart);
+
+          // clear whole pie
+          myChart.outerRadius = defaultRadiusMyChart;
+          myChart.update();
+
+          // update the newly selected piece
+          activePoints[0]["_model"].outerRadius = defaultRadiusMyChart + addRadiusMargin;
+        }
+      }
+      myChart.render(500, false);
+    }
+  })};
+</script>
 				
 				
 				<div class="row">
@@ -80,7 +162,7 @@
 							//dataTableColorCfg["AMBER"]="#ec7a08";
 							//dataTableColorCfg["GREEN"]="#92d400";
 							$(document).ready(function() {
-								var canvas = document.getElementById("pieChart");
+								//var canvas = document.getElementById("pieChart");
 								var xhr = new XMLHttpRequest();
 //								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
 //								xhr.open("GET", "http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
@@ -122,25 +204,36 @@
 										type: 'doughnut',
 										data: result,
 							    	options: {
+								    	hover: {
+									      onHover: function(e, el) {
+									         $("#pieChart").css("cursor", e[0] ? "pointer" : "default");
+									      }
+									   	},
 							        legend: {
-							            display: false,
+						            display: false,
 		            		}}
 									});
 									
+									//ctx.canvas.width
+									//ctx.canvas.height=400;
+									//var defaultRadiusMyChart = myDoughnutChart.outerRadius;
+
+    							onClickHandlers(myDoughnutChart);  
+									
 									// OnClick driving the table of data
-									canvas.onclick=function(evt) {
-							      var activePoints=myDoughnutChart.getElementsAtEvent(evt);
-							      if (activePoints[0]) {
-							        var chartData=activePoints[0]['_chart'].config.data;
-							        var idx=activePoints[0]['_index'];
-											
-							        var label=chartData.labels[idx];
-							        var value=chartData.datasets[0].data[idx];
-											
-							        var table=$('#example').DataTable();
-							        table.columns(2).search(label).draw();
-							      }
-							    };
+									//canvas.onclick=function(evt) {
+							    //  var activePoints=myDoughnutChart.getElementsAtEvent(evt);
+							    //  if (activePoints[0]) {
+							    //    var chartData=activePoints[0]['_chart'].config.data;
+							    //    var idx=activePoints[0]['_index'];
+									//		
+							    //    var label=chartData.labels[idx];
+							    //    var value=chartData.datasets[0].data[idx];
+									//		
+							    //    var table=$('#example').DataTable();
+							    //    table.columns(2).search(label).draw();
+							    //  }
+							    //};
 							    
 							    //console.log("data="+data);
 							    
@@ -175,26 +268,13 @@
 							    
 								}
 							});
-					    function resetResults(){
-					    	var table=$('#example').DataTable();
-					      table.columns(2).search("").draw();
-					    }
 						</script>
-						<div>
-							<center>
-								<div style="position:relative;left:4px;top:294px;width:200px;">
-									<a href="#">
-										<img onclick="resetResults(); return false;" style="width:100px;" alt="Reset" src="images/reboot.jpg"/>
-									</a>
-								</div>
-								<canvas id="pieChart"></canvas>
-								<style>
-								#example_filter label{
-									display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
-								}
-								</style>
-							</center>
-						</div>
+						<canvas id="pieChart"></canvas>
+						<style>
+						#example_filter label{
+							display:none; //hide the search box on datatables, but search has to be enabled so the chart can filter the data 
+						}
+						</style>
 						
 						
 					</div>
@@ -205,6 +285,11 @@
 <%
 if ("true".equalsIgnoreCase(request.getParameter("review"))){
 %>
+<script>
+	if (null!=document.getElementById("AssessmentId")){
+		document.getElementById("AssessmentId").value=assessmentId;
+	}
+</script>
 
 <p><h2>Architect Review</h2></p>
 <p>Please use this section to provide your assessment of the possible migration/modernisation plan and an effort estimation.</p>
@@ -349,6 +434,5 @@ if ("true".equalsIgnoreCase(request.getParameter("review"))){
 		
 	</body>
 </html>
-
 
 

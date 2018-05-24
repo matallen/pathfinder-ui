@@ -10,8 +10,14 @@
   <head>
     <title>Pathfinder</title>
     <script src="https://unpkg.com/jquery"></script>
-    <script src="https://surveyjs.azureedge.net/1.0.13/survey.jquery.js"></script>
-    <link href="https://surveyjs.azureedge.net/1.0.13/survey.css" type="text/css" rel="stylesheet"/>
+
+    <script src="https://surveyjs.azureedge.net/1.0.23/survey.jquery.js"></script>
+    <link href="https://surveyjs.azureedge.net/1.0.23/survey.css" type="text/css" rel="stylesheet"/>
+
+<!--    
+    <script src="https://surveyjs.azureedge.net/1.0.23/survey.jquery.js"></script>
+    <link  href="https://surveyjs.azureedge.net/1.0.23/survey.css" type="text/css" rel="stylesheet"/>
+-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
     <script src="https://unpkg.com/surveyjs-widgets"></script>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
@@ -29,7 +35,8 @@
     <div id="surveyElement"></div>
     <div id="surveyResult"></div>
 
-		<script type="text/javascript" src="datatables-functions.js?v2"></script>
-    <script type="text/javascript" src="assets/js/application-survey.js?v8"></script>
+		<script type="text/javascript" src="datatables-functions.js"></script>
+		<script type="text/javascript" src="assets/js/application-survey.js?v1"></script>
+    
 	</body>
 </html>

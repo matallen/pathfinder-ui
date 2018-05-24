@@ -54,6 +54,7 @@ var json = {
                 "choicesByUrl": {
                         // Ignore the URL this will be replaced by the event handler
                         //url: "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/",
+                        //"url": "http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/customers/"+survey.data.CUSTNAME+"/applications/",
                         "valueName": "Id",
                         "titleName": "Name"
                 }
@@ -301,6 +302,18 @@ var json = {
 
 window.survey = new Survey.Model(json);
 
+//console.log(Utils.getParameterByName("customerId"));
+//console.log(Utils.getParameterByName("applicationId"));
+
+//survey.data={"CUSTNAME":Utils.getParameterByName("customerId")};
+
+// ### this pre-selects the customer
+if (undefined!=Utils.getParameterByName("customerId") && undefined!=Utils.getParameterByName("applicationId")){
+	survey.data={"CUSTNAME":Utils.getParameterByName("customerId"), "ASSMENTNAME":Utils.getParameterByName("applicationId")};
+}
+
+//survey.data={"CUSTNAME":"Vodatel"};
+
 survey
     .onComplete
     .add(function (result) {
@@ -318,36 +331,51 @@ survey
     });
 
 survey
-    .onPartialSend
+//    .onPartialSend
+		.onAfterRenderPage
+//		.onLoadChoicesFromServer
     .add(function (result) {
+    		console.log("FIRED!");
     		
-        //var c = survey.getQuestionByName('CUSTNAME');
-        //c.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/";
-        //c.choicesByUrl.valueName = "Id";
-        //c.choicesByUrl.titleName = "Name";
-        //c.choicesByUrl.run();
+    		//console.log("result="+JSON.stringify(result));
+    		
+//        var c = survey.getQuestionByName('CUSTNAME');
+//        c.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/";
+//        c.choicesByUrl.valueName = "CustomerId";
+//        c.choicesByUrl.titleName = "CustomerName";
+//        c.choicesByUrl.run();
+//        
+//        //var q = survey.getQuestionByName('CUSTNAME');
+//        var tmp = result.data.CUSTNAME;
+        //c.value="b49ab128-261e-4621-81ad-f7429de45ea7";
+        //result.data.CUSTNAME="b49ab128-261e-4621-81ad-f7429de45ea7";
         
-        var q = survey.getQuestionByName('ASSMENTNAME');
-        var tmp = result.data.CUSTNAME;
-        q.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+tmp+"/applications/";
-        q.choicesByUrl.valueName = "Id";
-        q.choicesByUrl.titleName = "Name";
-        q.choicesByUrl.run();
-
-        var v = survey.getQuestionByName('DEPSOUTLIST');
-        v.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+tmp+"/applications/";
-        v.choicesByUrl.valueName = "Id";
-        v.choicesByUrl.titleName = "Name";
-        v.choicesByUrl.run();
+        if (result.data.CUSTNAME!=undefined){
+	        var q = survey.getQuestionByName('ASSMENTNAME');
+	        q.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+result.data.CUSTNAME+"/applications/";
+	        q.choicesByUrl.valueName = "Id";
+	        q.choicesByUrl.titleName = "Name";
+	        q.choicesByUrl.run();
+	        // ### this pre-selects the application
+	        if (undefined!=Utils.getParameterByName("customerId") && undefined!=Utils.getParameterByName("applicationId")){
+	        	survey.data={"CUSTNAME":Utils.getParameterByName("customerId"), "ASSMENTNAME":Utils.getParameterByName("applicationId")};
+	        }
+	        q.disabled=true;
+				}
+				
+        if (result.data.CUSTNAME!=undefined){
+		      var v = survey.getQuestionByName('DEPSOUTLIST');
+	        v.choicesByUrl.url = Utils.SERVER+"/api/pathfinder/customers/"+result.data.CUSTNAME+"/applications/";
+	        v.choicesByUrl.valueName = "Id";
+	        v.choicesByUrl.titleName = "Name";
+	        v.choicesByUrl.run();
+	      }
     });
 
-//$(document).ready(function(){
-//  result.data.CUSTNAME="Customer 1";
-//	console.log($("#sq_100i").val());
-//});
 
 //survey.data = {
-//    "CUSTNAME" : "Customer 1"
+//    "CUSTNAME" : "5aa6c58e23911200015454d0"
+////    "CUSTNAME" : "StaticTel"
 //};
 
 $("#surveyElement").Survey({
