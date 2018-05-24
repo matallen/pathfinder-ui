@@ -125,7 +125,12 @@
 						    </table>
 						  </div>
 				  	</div>
-						
+
+<div id="dialog" title="Dependency Map">
+<div id="mynetwork"></div>							
+</div>
+ 
+<button id="opener">Open Dependency Map</button>						
 <script>
 $(document).ready(function(){
     $("table tbody").sortable({
@@ -145,7 +150,7 @@ $(document).ready(function(){
 
 						</div>
 						
-<div id="mynetwork"></div>							
+
 					</div>
 					<div class="col-sm-8">
 						<h2>Priority Analysis</h2>
@@ -204,7 +209,7 @@ $(document).ready(function(){
 										backgroundColor.push(decisionColors.NULL);
 									}
 									// {"x":1,"y":8,"r":10}
-									console.log(workEffort);
+									//console.log(workEffort);
 									innerData.push({"x":businessPriority,"y":inboundDependencies,"r":sizing[workEffort]})
 									
 								}
@@ -212,7 +217,7 @@ $(document).ready(function(){
 								data['backgroundColor']=backgroundColor;
 								data['data']=innerData;
 								
-								console.log("data="+JSON.stringify(data));
+								//console.log("data="+JSON.stringify(data));
 								
 								new Chart(document.getElementById("chartjs-6"),{
 									"type":"bubble",
@@ -270,14 +275,16 @@ $(document).ready(function(){
 //								});
 							</script>
 						</div>
-						<div id="toggleNodes">		
+						
+
+
+<!-- 						<div id="toggleNodes">		
 <input type="button"  onclick="getRemoveColouredNodes('#FF0000');" value="Remove Red"></input>
 <input type="button"  onclick="getRemoveColouredNodes('#FCC200');" value="Remove Amber"></input>
 <input type="button"  onclick="getRemoveColouredNodes('#7BE141');" value="Remove Green"></input>
 <input type="reset"  onclick="populateNodeArray();window.location.reload() "></input>
 </div>
-
-   					<div id="eventSpan"></div>
+ -->
    					
 					</div>
 
@@ -366,7 +373,27 @@ $(document).ready(function(){
 	// Dependency chart stuff
 <script type="text/javascript" src="assets/js/vis.js"></script>
 <script type="text/javascript" src="assets/js/dependencyMap.js"></script>		
-
+ <script>
+  $( function() {
+    $( "#dialog" ).dialog({
+        width: 1000,
+        height: 500,
+        autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "blind",
+        duration: 1000
+      }
+    });
+ 
+    $( "#opener" ).on( "click", function() {
+      $( "#dialog" ).dialog( "open" );
+    });
+  } );
+  </script>
 </html>
 
 
