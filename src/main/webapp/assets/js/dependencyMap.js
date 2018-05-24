@@ -35,6 +35,7 @@ var edges = new vis.DataSet([]);
    	httpGetObject(Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applicationAssessmentSummary", function(applications){
 var i;
 //console.log(applications);
+console.log("Number of Nodes: " + applications.length);
 for(i=0;i<applications.length;i++){
  nodes.add({id:applications[i].Id, label: applications[i].Name, title:applications[i].Name, effort: applications[i].WorkEffort, color: getEffortColor(applications[i].WorkEffort) });
 }   	
