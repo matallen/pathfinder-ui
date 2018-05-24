@@ -47,6 +47,7 @@
 				
 				<script>
 					var customerId=Utils.getParameterByName("customerId");
+					//var customerGuid;
 					var appsCount=assessed=unassessed=notReviewed=reviewed=0;
 					
 					$(document).ready(function() {
@@ -57,6 +58,7 @@
 							// ### Populate the header with the Customer Name
 							document.getElementById("customerName").innerHTML=customer.CustomerName;
 							document.getElementById("breadcrumb").innerHTML=customer.CustomerName;
+							//customerGuid=customer.CustomerId;
 						});
 						
 						// ### Populate the progress bar
@@ -71,8 +73,12 @@
 						  }
 						  $('#jqmeter-assessed').jQMeter({goal:progress.Appcount,raised:progress.Assessed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
 						  $('#jqmeter-reviewed').jQMeter({goal:progress.Appcount,raised:progress.Reviewed,width:'290px',height:'40px',bgColor:'#dadada',barColor:'#9b9793',animationSpeed:100,displayTotal:true});
-	                   
+							
 						});
+						
+						
+						
+						
 						
 					});
 				
@@ -89,12 +95,12 @@
 						Reviewed
 						<div id="jqmeter-reviewed"></div>
 						<style>
-						.therm{height:30px;border-radius:5px;}
-						.outer-therm{margin:20px 0;}
-						.inner-therm span {color: #fff;display: inline-block;float: right;font-family: Overpass;font-size: 14px;font-weight: bold;}
-						.vertical.inner-therm span{width:100%;text-align:center;}
-						.vertical.outer-therm{position:relative;}
-						.vertical.inner-therm{position:absolute;bottom:0;}
+							.therm{height:30px;border-radius:5px;}
+							.outer-therm{margin:20px 0;}
+							.inner-therm span {color: #fff;display: inline-block;float: right;font-family: Overpass;font-size: 14px;font-weight: bold;}
+							.vertical.inner-therm span{width:100%;text-align:center;}
+							.vertical.outer-therm{position:relative;}
+							.vertical.inner-therm{position:absolute;bottom:0;}
 						</style>
 						<div id="allDone"></div>
 						<a href="report.jsp?customerId=<%=request.getParameter("customerId")%>"><button>Report</button></a>
@@ -108,56 +114,56 @@
 						<!-- #### DATATABLE ### -->
 						<script>
 							$(document).ready(function() {
-							    $('#example').DataTable( {
-							        "ajax": {
-							            //"url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applications/",
-							            //"url": 'http://localhost:8083/pathfinder-ui/api/pathfinder/customers/'+customerId+"/assessmentSummary",
-							            "url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentSummary",
-							            "dataSrc": "",
-							            "dataType": "json"
-							        },
-							        "scrollCollapse": true,
-							        "paging":         false,
-							        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
-							        "pageLength" : 10, // default page entries
-							        "searching" : false,
-							        "order" : [[1,"desc"],[2,"desc"],[0,"asc"]],  //reviewed, assessed then app name
-							        "columns": [
-							            { "data": "Name" },
-							            { "data": "Assessed" },
-							            { "data": "ReviewDate" },
-							            { "data": "BusinessPriority" },
-							            { "data": "Decision" },
-							            { "data": "WorkEffort" },
-							            { "data": "ReviewDate" },
-							            { "data": "LatestAssessmentId" }
-							        ]
-							        ,"columnDefs": [
-							        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
+								// ### Datatable load (has to be done after customer load because some links require the customer GUID ###
+								$('#example').DataTable( {
+					        "ajax": {
+					            //"url": 'http://localhost:8083/pathfinder-ui/api/pathfinder/customers/'+customerId+"/assessmentSummary",
+					            "url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+"/applicationAssessmentSummary",
+					            "dataSrc": "",
+					            "dataType": "json"
+					        },
+					        "scrollCollapse": true,
+					        "paging":         false,
+					        "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]], // page entry options
+					        "pageLength" : 10, // default page entries
+					        "searching" : false,
+					        "order" : [[1,"desc"],[2,"desc"],[0,"asc"]],  //reviewed, assessed then app name
+					        "columns": [
+					            { "data": "Name" },
+					            { "data": "Assessed" },
+					            { "data": "ReviewDate" },
+					            { "data": "BusinessPriority" },
+					            { "data": "Decision" },
+					            { "data": "WorkEffort" },
+					            { "data": "ReviewDate" },
+					            { "data": "LatestAssessmentId" }
+					        ]
+					        ,"columnDefs": [
+					        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
+					              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='survey.jsp?customerId="+customerId+"&applicationId="+row['Id']+"'>No</a>")+"</span>";
+											}},
+											{ "targets": 2, "orderable": true, "render": function (data,type,row){
+												if (row["ReviewDate"]==null && row["Assessed"]==true){
+												  return "<a href='viewAssessment.jsp?review=true&app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img height='24px' src='images/review.png'></a>";
+												}else if (row["ReviewDate"]==null){
+													return "No";
+												}else{
+													return "Yes";
+												}
+											}},
+											{ "targets": 4, "orderable": true, "render": function (data,type,row){
+					              return row['Decision']==null?"":row['Decision']; 
+											}},
+											{ "targets": 5, "orderable": true, "render": function (data,type,row){
+					              return row['WorkEffort']==null?"":row['WorkEffort'];
+											}},
+						            { "targets": 7, "orderable": false, "render": function (data,type,row){
+					            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
+											}}
+					        ]
+						    });
+						    // ### END Datatable load
 
-
-							              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='survey.jsp'>No</a>")+"</span>";
-													}},
-													{ "targets": 2, "orderable": true, "render": function (data,type,row){
-														if (row["ReviewDate"]==null && row["Assessed"]==true){
-														  return "<a href='viewAssessment.jsp?review=true&app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img height='24px' src='images/review.png'></a>";
-														}else if (row["ReviewDate"]==null){
-															return "No";
-														}else{
-															return "Yes";
-														}
-													}},
-													{ "targets": 4, "orderable": true, "render": function (data,type,row){
- 							              return row['Decision']==null?"":row['Decision']; 
-													}},
-													{ "targets": 5, "orderable": true, "render": function (data,type,row){
-							              return row['WorkEffort']==null?"":row['WorkEffort'];
-													}},
-								            { "targets": 7, "orderable": false, "render": function (data,type,row){
-							            	return row["Assessed"]!=true?"":"<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'><img src='images/details.png'/></a>";
-													}}
-							        ]
-							    } );
 							} );
 						</script>
 				  	<div id="wrapper">
