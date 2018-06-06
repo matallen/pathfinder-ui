@@ -37,8 +37,8 @@
   	
   	<!-- #### DATATABLES ### -->
 		<script>
-			function deleteItem(id){
-			  httpDelete(Utils.SERVER+"/api/pathfinder/customers/"+id);
+			function deleteItem(custId, appId){
+			  httpDelete(Utils.SERVER+"/api/pathfinder/customers/"+custId+"/applications/"+appId);
 			}
 			function getParameterByName(name, url) {
 		    if (!url) url = window.location.href;
@@ -51,6 +51,7 @@
 			}
 			$(document).ready(function() {
 					// ### Populate the breadcrumb customer names
+					var customerId=getParameterByName("customerId");
 				  var xhr = new XMLHttpRequest();
 				  var url=Utils.SERVER+"/api/pathfinder/customers/"+getParameterByName("customerId");
 				  xhr.open("GET", url, true);
@@ -63,7 +64,7 @@
 			    $('#example').DataTable( {
 			        "ajax": {
 			            //"url": '${pageContext.request.contextPath}/api/pathfinder/customers/"+request.getParameter("customerId")+"/applications/',
-			            "url": Utils.SERVER+'/api/pathfinder/customers/'+getParameterByName("customerId")+'/applications/',
+			            "url": Utils.SERVER+'/api/pathfinder/customers/'+customerId+'/applications/',
 			            "dataSrc": "",
 			            "dataType": "json"
 			        },
@@ -83,7 +84,7 @@
 									return "<div class='btn btn-image btn-edit' title='Edit' onclick='loadEntity(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal'></div>";
 								}}
 			        	,{ "targets": 3, "orderable": false, "render": function (data,type,row){
-									return "<div class='btn btn-image btn-delete' title='Delete' onclick='deleteItem(\""+row["Id"]+"\");' data-toggle='modal' data-target='#exampleModal'></div>";
+									return "<div class='btn btn-image btn-delete' title='Delete' onclick='deleteItem(\""+customerId+"\",\""+row["Id"]+"\");'></div>";
 								}}
 			        ]
 			    } );
