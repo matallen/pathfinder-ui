@@ -139,6 +139,9 @@
 					            { "data": "LatestAssessmentId" }
 					        ]
 					        ,"columnDefs": [
+					        		{ "targets": 0, "orderable": true, "render": function (data,type,row){
+					              return "<a href='viewAssessment.jsp?app="+row['Id']+"&assessment="+row['LatestAssessmentId']+"&customer="+customerId+"'>"+row["Name"]+"</a>";
+											}},
 					        		{ "targets": 1, "orderable": true, "render": function (data,type,row){
 					              return "<span class='"+(row["Assessed"]==true?"messageGreen'>Yes":"messageRed'><a href='survey.jsp?customerId="+customerId+"&applicationId="+row['Id']+"'>No</a>")+"</span>";
 											}},
