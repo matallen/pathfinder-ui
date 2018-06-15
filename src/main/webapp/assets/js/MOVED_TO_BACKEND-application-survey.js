@@ -297,8 +297,13 @@ var json = {
             }
         ]
     }],
-    completedHtml: "<p><h4>Thank you for completing the Pathfinder Assessment.  Please click <a href='/'>Here</a> to return to the main page."
+    completedHtml: "<p><h4>Thank you for completing the Pathfinder Assessment.  Please click <a id='returnlink' href='/pathfinder-ui/assessments.jsp?customerId='>Here</a> to return to the main page."
 };
+
+if (undefined!=document.getElementById("returnlink")){
+  document.getElementById("returnlink").href=document.getElementById("returnlink").href+Utils.getParameterByName("customerId");
+}
+
 
 window.survey = new Survey.Model(json);
 

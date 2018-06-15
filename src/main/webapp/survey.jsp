@@ -36,7 +36,9 @@
     <div id="surveyResult"></div>
 
 		<script type="text/javascript" src="datatables-functions.js"></script>
-		<script type="text/javascript" src="assets/js/application-survey.js?v1"></script>
-    
+		<!--script type="text/javascript" src="assets/js/application-survey.js?v1"></script-->
+		
+    <script type="text/javascript" src="http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/survey"></script>
+		
 	</body>
 </html>

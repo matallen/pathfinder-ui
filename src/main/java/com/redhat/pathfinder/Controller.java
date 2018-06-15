@@ -162,6 +162,7 @@ public class Controller{
   }
   
   /* pie chart where the aspects are grouped by color */
+  // NOT SURE THIS IS EVEN USED ANYMORE
   @GET
   @Path("/customers/{customerId}/applications/{appId}/assessments/{assessmentId}/chart2")
   public Response chart2(@PathParam("customerId") String customerId, @PathParam("appId") String appId, @PathParam("assessmentId") String assessmentId) throws JsonGenerationException, JsonMappingException, IOException{

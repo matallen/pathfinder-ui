@@ -167,9 +167,10 @@ function onClickHandlers(myChart) {
 //								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/chart2", true);
 //								xhr.open("GET", "http://pathfinder-frontend-vft-dashboard.int.open.paas.redhat.com/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 //use this until the method is moved to server end
-								xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+								//xhr.open("GET", "api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+								//xhr.open("GET", "http://localhost:8080/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 //should use this one once the method is moved to the server end
-//								xhr.open("GET", Utils.SERVER+"api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
+								xhr.open("GET", Utils.SERVER+"/api/pathfinder/customers/"+customerId+"/applications/"+appId+"/assessments/"+assessmentId+"/viewAssessmentSummary", true);
 								xhr.send();
 								xhr.onloadend = function () {
 									var data=JSON.parse(xhr.responseText);
