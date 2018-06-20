@@ -37,20 +37,20 @@ public class Controller{
   
   static Properties properties=null;
   public static String getProperty(String name) throws IOException{
-    if (null==properties){
-      properties = new Properties();
-      properties.load( Controller.class.getClassLoader().getResourceAsStream("pathfinder-ui.properties"));
-    }
+//    if (null==properties){
+//      properties = new Properties();
+//      properties.load(Controller.class.getClassLoader().getResourceAsStream("pathfinder-ui.properties"));
+//    }
     System.out.println("request for property '"+name+"'");
-    System.out.println(" - properties."+name+"='"+properties.getProperty(name)+"'");
-    System.out.println(" - system.getProperty("+name+")='"+properties.getProperty(name)+"'");
+//    System.out.println(" - properties."+name+"='"+properties.getProperty(name)+"'");
+    System.out.println(" - system.getProperty("+name+")='"+System.getenv(name)+"'");
     
     
-    if (null!=properties.getProperty(name)){
-      return properties.getProperty(name);
-    }else{
+//    if (null!=properties.getProperty(name)){
+//      return properties.getProperty(name);
+//    }else{
       return System.getenv(name);
-    }
+//    }
   }
   
   class ApplicationAssessmentSummary{
