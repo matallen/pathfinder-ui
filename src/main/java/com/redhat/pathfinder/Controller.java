@@ -41,6 +41,10 @@ public class Controller{
       properties = new Properties();
       properties.load( Controller.class.getClassLoader().getResourceAsStream("pathfinder-ui.properties"));
     }
+    System.out.println("request for property '"+name+"'");
+    System.out.println(" - properties."+name+"='"+properties.getProperty(name)+"'");
+    System.out.println(" - system.getProperty("+name+")='"+properties.getProperty(name)+"'");
+    
     
     if (null!=properties.getProperty(name)){
       return properties.getProperty(name);
