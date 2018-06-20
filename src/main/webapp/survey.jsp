@@ -14,10 +14,6 @@
     <script src="https://surveyjs.azureedge.net/1.0.23/survey.jquery.js"></script>
     <link href="https://surveyjs.azureedge.net/1.0.23/survey.css" type="text/css" rel="stylesheet"/>
 
-<!--    
-    <script src="https://surveyjs.azureedge.net/1.0.23/survey.jquery.js"></script>
-    <link  href="https://surveyjs.azureedge.net/1.0.23/survey.css" type="text/css" rel="stylesheet"/>
--->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
     <script src="https://unpkg.com/surveyjs-widgets"></script>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
@@ -34,11 +30,16 @@
 	<body class="is-preload">
     <div id="surveyElement"></div>
     <div id="surveyResult"></div>
-
-		<script type="text/javascript" src="datatables-functions.js"></script>
-		<!--script type="text/javascript" src="assets/js/application-survey.js?v1"></script-->
 		
-    <script type="text/javascript" src="http://pathtest-pathfinder.6923.rh-us-east-1.openshiftapps.com/api/pathfinder/survey"></script>
+		<script type="text/javascript" src="datatables-functions.js"></script>
+		<script type="text/javascript" src="utils.jsp"></script>
+		
+		<script>
+			var surveyJsUrl=Utils.SERVER+"/api/pathfinder/survey";
+			var surveyJSElement=document.createElement('script');
+			surveyJSElement.src=surveyJsUrl;
+			document.getElementsByTagName('head')[0].appendChild(surveyJSElement);
+		</script>
 		
 	</body>
 </html>

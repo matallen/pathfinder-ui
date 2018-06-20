@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.ws.rs.GET;
@@ -27,13 +28,26 @@ import org.codehaus.jackson.map.JsonMappingException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.redhat.pathfinder.charts.Chart2Json;
 import com.redhat.pathfinder.charts.DataSet2;
 
 @Path("/pathfinder/")
 public class Controller{
+  
+  static Properties properties=null;
+  public static String getProperty(String name) throws IOException{
+    if (null==properties){
+      properties = new Properties();
+      properties.load( Controller.class.getClassLoader().getResourceAsStream("pathfinder-ui.properties"));
+    }
+    
+    if (null!=properties.getProperty(name)){
+      return properties.getProperty(name);
+    }else{
+      return System.getenv(name);
+    }
+  }
   
   class ApplicationAssessmentSummary{
     String question;
