@@ -15,8 +15,8 @@
 	-->
   <script src="assets/js/bootstrap-3.3.7.min.js"></script>
   <script src="assets/js/jquery.dataTables-1.10.16.js"></script>
-  <script src="datatables-functions.js?v1"></script>
-	<script src="datatables-plugins.js"></script>
+  <script src="assets/js/datatables-functions.js?v1"></script>
+	<script src="assets/js/datatables-plugins.js"></script>
 	<script type="text/javascript" src="utils.jsp"></script>
 	
 	<!-- for pie/line/bubble graphing -->
